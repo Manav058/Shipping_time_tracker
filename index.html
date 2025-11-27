@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Load Live Scroller v3</title>
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+  --color-gray-400-rgb: 119, 124, 124;
+  --color-gray-300-rgb: 167, 169, 169;
+  --color-gray-200-rgb: 245, 245, 245;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  /* Custom colors */
+  --color-green: rgba(34, 197, 94, 1);
+  --color-yellow: rgba(234, 179, 8, 1);
+  --color-red: rgba(239, 68, 68, 1);
+  --color-green-bg: rgba(34, 197, 94, 0.1);
+  --color-yellow-bg: rgba(234, 179, 8, 0.1);
+  --color-red-bg: rgba(239, 68, 68, 0.1);
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+
+  /* Spacing */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+  }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-base);
+    background: var(--color-background);
+    color: var(--color-text);
+    overflow-x: hidden;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-20) var(--space-32);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.header-row:last-child {
+    border-bottom: none;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.header h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.header-date {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.controls {
+    display: flex;
+    gap: var(--space-16);
+    align-items: center;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: var(--space-8) var(--space-16);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-standard);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family-base);
+}
+
+.tab-btn:hover {
+    background: var(--color-secondary-hover);
+}
+
+.tab-btn.active {
+    background: var(--color-primary);
+    color: var(--color-btn-primary-text);
+    border-color: var(--color-primary);
+}
+
+.current-time {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+}
+
+.scroller-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-24) var(--space-32);
+    position: relative;
+}
+
+.section {
+    margin-bottom: var(--space-32);
+}
+
+.section-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-16);
+    color: var(--color-text);
+    padding-bottom: var(--space-12);
+    border-bottom: 2px solid var(--color-border);
+}
+
+.scroller {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+}
+
+.load-card {
+    background: var(--color-surface);
+    border: 2px solid;
+    border-radius: var(--radius-lg);
+    padding: var(--space-20) var(--space-24);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 80px;
+    transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.load-card:hover {
+    transform: translateY(-2px);
+}
+
+.load-card.green {
+    border-color: var(--color-green);
+    background: var(--color-green-bg);
+}
+
+.load-card.yellow {
+    border-color: var(--color-yellow);
+    background: var(--color-yellow-bg);
+}
+
+.load-card.red {
+    border-color: var(--color-red);
+    background: var(--color-red-bg);
+}
+
+.load-card.completed {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    opacity: 0.6;
+}
+
+.load-card.completed .load-store {
+    text-decoration: line-through;
+}
+
+.load-info {
+    display: flex;
+    gap: var(--space-32);
+    align-items: center;
+}
+
+.load-type {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-secondary);
+}
+
+.load-store {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+}
+
+.load-time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-4);
+}
+
+.scheduled-time {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+}
+
+.time-remaining {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+}
+
+.load-card.green .time-remaining {
+    color: var(--color-green);
+}
+
+.load-card.yellow .time-remaining {
+    color: var(--color-yellow);
+}
+
+.load-card.red .time-remaining {
+    color: var(--color-red);
+}
+
+.legend {
+    position: fixed;
+    bottom: var(--space-24);
+    right: var(--space-32);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-base);
+    padding: var(--space-16);
+    display: flex;
+    gap: var(--space-20);
+    font-size: var(--font-size-sm);
+    box-shadow: var(--shadow-md);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-sm);
+}
+
+.legend-color.green {
+    background: var(--color-green);
+}
+
+.legend-color.yellow {
+    background: var(--color-yellow);
+}
+
+.legend-color.red {
+    background: var(--color-red);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-32);
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 90%;
+    box-shadow: var(--shadow-md);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-20);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.close-btn {
+    background: var(--color-secondary);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--space-8) var(--space-16);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    font-family: var(--font-family-base);
+    transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.close-btn:hover {
+    background: var(--color-secondary-hover);
+}
+
+.data-editor {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    width: 100%;
+    min-height: 400px;
+    padding: var(--space-16);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-base);
+    background: var(--color-background);
+    color: var(--color-text);
+    resize: vertical;
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--space-12);
+    margin-top: var(--space-20);
+}
+
+.save-btn {
+    background: var(--color-primary);
+    color: var(--color-btn-primary-text);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--space-12) var(--space-20);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family-base);
+    transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.save-btn:hover {
+    background: var(--color-primary-hover);
+}
+
+.date-picker-input {
+    padding: var(--space-8) var(--space-12);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    width: 100%;
+    font-family: var(--font-family-base);
+}
+
+@media (max-width: 768px) {
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-16);
+        padding: var(--space-16);
+    }
+    
+    .controls {
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+    }
+    
+    .tab-buttons {
+        width: 100%;
+    }
+    
+    .scroller-container {
+        padding: var(--space-16);
+    }
+    
+    .load-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-16);
+    }
+    
+    .load-time {
+        align-items: flex-start;
+    }
+    
+    .legend {
+        position: static;
+        margin-top: var(--space-24);
+        flex-direction: column;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-row">
+                <div class="header-left">
+                    <h1>Shipping Load Live Scroller</h1>
+                    <div class="header-date" id="headerDate"></div>
+                </div>
+                <div class="current-time" id="currentTime"></div>
+            </div>
+            <div class="header-row">
+                <div class="controls">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-sheet="urgent">Urgent</button>
+                        <button class="tab-btn" data-sheet="completed">Completed</button>
+                        <button class="tab-btn" data-sheet="all">All</button>
+                        <button class="tab-btn" data-sheet="grocery">Grocery</button>
+                        <button class="tab-btn" data-sheet="produce">Produce</button>
+                        <button class="tab-btn" data-sheet="combined">Combined</button>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="tab-buttons">
+                        <button class="tab-btn" onclick="showDataEditor('grocery')">📋 Grocery Data</button>
+                        <button class="tab-btn" onclick="showDataEditor('produce')">📋 Produce Data</button>
+                        <button class="tab-btn" onclick="showDataEditor('combined')">📋 Combined Data</button>
+                        <button class="tab-btn" onclick="showDatePicker()">📅 Select Date</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroller-container">
+            <div class="section" id="urgentSection">
+                <h2 class="section-title" id="sectionTitle">Pending Loads for Today</h2>
+                <div class="scroller" id="urgentScroller"></div>
+            </div>
+        </div>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color green"></div>
+                <span>&gt; 2 hours</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color yellow"></div>
+                <span>20-45 min</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color red"></div>
+                <span>&lt; 20 min</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="dataModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Edit Data</h2>
+                <button class="close-btn" onclick="closeDataEditor()">Close</button>
+            </div>
+            <p style="color: var(--color-text-secondary); margin-bottom: 15px;">
+                Edit the JSON data below. Format: { store: number, mon: 'TIME', tue: 'TIME', ... }
+            </p>
+            <textarea class="data-editor" id="dataEditor"></textarea>
+            <div class="modal-actions">
+                <button class="save-btn" onclick="saveData()">Save Changes</button>
+                <button class="close-btn" onclick="closeDataEditor()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="dateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Select Date</h2>
+                <button class="close-btn" onclick="closeDatePicker()">Close</button>
+            </div>
+            <p style="color: var(--color-text-secondary); margin-bottom: 15px;">
+                Choose a date to view loads scheduled for that day
+            </p>
+            <input type="date" id="dateInput" class="date-picker-input" style="margin-bottom: 20px;">
+            <div class="modal-actions">
+                <button class="save-btn" onclick="applyDateFilter()">View Loads</button>
+                <button class="close-btn" onclick="resetToToday()">Reset to Today</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scheduleData = {
+            grocery: [
+                { store: 2, mon: '8:00 PM', wed: '8:00 PM', fri: '8:00 PM', sat: '4:00 PM' },
+                { store: 3, tue: '1:30 PM', thu: '1:30 PM', sat: '1:30 PM' },
+                { store: 4, mon: '9:00 PM', wed: '9:00 PM', fri: '9:00 PM' },
+                { store: 5, mon: '7:00 AM', tue: '4:30 PM', thu: '4:30 PM', sat: '1:30 PM' },
+                { store: 6, mon: '1:00 PM', wed: '1:00 PM', fri: '1:00 PM' },
+                { store: 7, tue: '1:00 PM', thu: '1:00 PM', sat: '1:00 PM' },
+                { store: 8, tue: '2:00 PM', thu: '2:00 PM', sat: '2:00 PM' },
+                { store: 9, tue: '3:00 PM', thu: '3:00 PM', sat: '3:00 PM' },
+                { store: 10, mon: '11:00 PM', wed: '11:00 PM', fri: '11:00 PM', sat: '7:30 PM' },
+                { store: 11, tue: '12:00 PM', thu: '12:00 PM', sat: '12:00 PM' },
+                { store: 12, mon: '7:00 PM', wed: '7:00 PM', fri: '7:00 PM' },
+                { store: 13, mon: '8:00 PM', wed: '8:00 PM', fri: '8:00 PM' },
+                { store: 14, mon: '1:30 PM', wed: '10:30 AM', thu: '1:30 PM', sat: '1:30 PM' },
+                { store: 17, mon: '1:30 PM', wed: '1:30 PM', fri: '1:30 PM' },
+                { store: 19, mon: '4:00 PM', wed: '4:00 PM', fri: '4:00 PM', sat: '5:00 PM' },
+                { store: 20, mon: '11:30 PM', wed: '11:30 PM', fri: '11:30 PM', sat: '5:00 PM' },
+                { store: 22, tue: '4:30 PM', thu: '4:30 PM', sat: '2:00 PM' },
+                { store: 24, mon: '11:00 PM', wed: '11:00 PM', fri: '11:00 PM', sat: '6:00 PM' },
+                { store: 25, mon: '4:30 PM', wed: '4:30 PM', fri: '4:30 PM' },
+                { store: 26, mon: '10:00 PM', tue: '10:00 PM', thu: '10:00 PM', fri: '10:00 PM' },
+                { store: 27, mon: '3:00 PM', wed: '3:00 PM', fri: '3:00 PM' },
+                { store: 28, mon: '4:00 PM', wed: '4:00 PM', fri: '4:00 PM', sun: '3:30 PM' },
+                { store: 32, tue: '6:00 PM', thu: '6:00 PM', sat: '4:00 PM' },
+                { store: 33, tue: '7:30 PM', thu: '7:30 PM', sat: '4:00 PM' },
+                { store: 34, mon: '2:30 PM', wed: '2:30 PM', fri: '2:30 PM' },
+                { store: 35, tue: '3:30 PM', thu: '3:30 PM', sat: '3:30 PM' },
+                { store: 36, mon: '3:30 PM', wed: '3:30 PM', fri: '3:30 PM' },
+                { store: 37, mon: '2:45 PM', wed: '2:45 PM', fri: '2:45 PM' },
+                { store: 38, mon: '12:30 PM', wed: '12:30 PM', fri: '12:30 PM', sat: '12:30 PM' },
+                { store: 39, mon: '12:00 PM', wed: '12:00 PM', fri: '12:00 PM' }
+            ],
+            produce: [
+                { store: 2, mon: '4:00 AM', tue: '4:00 AM', wed: '4:00 AM', thu: '4:00 AM', fri: '4:00 AM', sat: '4:00 AM' },
+                { store: 3, mon: '6:00 AM', tue: '6:00 AM', wed: '6:00 AM', thu: '6:00 AM', fri: '6:00 AM', sat: '6:00 AM' },
+                { store: 4, mon: '5:00 AM', tue: '5:00 AM', wed: '5:00 AM', thu: '5:00 AM', fri: '5:00 AM', sat: '5:00 AM' },
+                { store: 5, mon: '7:00 AM', tue: '7:00 AM', wed: '7:00 AM', thu: '7:00 AM', fri: '7:00 AM', sat: '7:30 AM', sun: '12:00 PM' },
+                { store: 6, mon: '9:00 AM', tue: '9:00 AM', wed: '9:00 AM', thu: '9:00 AM', fri: '9:00 AM', sat: '9:00 AM', sun: '11:00 AM' },
+                { store: 7, mon: '3:00 AM', tue: '3:00 AM', wed: '3:00 AM', thu: '3:00 AM', fri: '3:00 AM', sat: '3:00 AM', sun: '2:00 PM' },
+                { store: 8, mon: '10:00 AM', tue: '10:00 AM', wed: '10:00 AM', thu: '10:00 AM', fri: '10:00 AM', sat: '10:00 AM' },
+                { store: 9, mon: '11:00 AM', tue: '6:00 AM', wed: '6:00 AM', thu: '6:00 AM', fri: '6:00 AM', sat: '6:00 AM', sun: '1:30 PM' },
+                { store: 10, mon: '4:00 AM', tue: '1:00 AM', wed: '1:00 AM', thu: '1:00 AM', fri: '1:00 AM', sat: '1:00 AM' },
+                { store: 11, mon: '7:30 AM', tue: '7:30 AM', wed: '7:30 AM', thu: '7:30 AM', fri: '7:30 AM', sat: '7:30 AM', sun: '12:00 PM' },
+                { store: 12, mon: '5:00 AM', tue: '5:00 AM', wed: '5:00 AM', thu: '5:00 AM', fri: '5:00 AM', sat: '5:00 AM', sun: '10:00 AM' },
+                { store: 13, mon: '3:00 AM', tue: '3:00 AM', wed: '3:00 AM', thu: '3:00 AM', fri: '3:00 AM', sat: '3:00 AM', sun: '1:30 PM' },
+                { store: 14, mon: '10:30 AM', tue: '10:30 AM', wed: '10:30 AM', thu: '10:30 AM', fri: '10:30 AM', sat: '10:30 AM', sun: '2:30 PM' },
+                { store: 16, mon: '7:00 AM', wed: '7:00 AM', fri: '7:00 AM' },
+                { store: 17, mon: '2:00 AM', tue: '2:00 AM', wed: '2:00 AM', thu: '2:00 AM', fri: '2:00 AM', sat: '2:00 AM', sun: '1:00 PM' },
+                { store: 19, mon: '10:30 AM', tue: '10:30 AM', wed: '10:30 AM', thu: '10:30 AM', fri: '10:30 AM', sat: '10:30 AM' },
+                { store: 20, mon: '3:30 AM', tue: '3:30 AM', wed: '3:30 AM', thu: '3:30 AM', fri: '3:30 AM', sat: '3:30 AM', sun: '2:30 PM' },
+                { store: 22, mon: '12:00 PM', tue: '8:30 AM', wed: '8:30 AM', thu: '8:30 AM', fri: '8:30 AM', sat: '8:30 AM', sun: '1:30 PM' },
+                { store: 24, mon: '6:00 AM', tue: '1:00 AM', wed: '1:00 AM', thu: '1:00 AM', fri: '1:00 AM', sat: '1:00 AM' },
+                { store: 25, mon: '8:30 AM', tue: '8:30 AM', wed: '8:30 AM', thu: '8:30 AM', fri: '8:30 AM', sat: '8:30 AM', sun: '1:00 PM' },
+                { store: 26, mon: '3:30 AM', tue: '3:30 AM', wed: '3:30 AM', thu: '3:30 AM', fri: '3:30 AM', sat: '3:30 AM', sun: '4:00 PM' },
+                { store: 27, mon: '7:30 AM', tue: '5:30 AM', wed: '5:30 AM', thu: '5:30 AM', fri: '5:30 AM', sat: '7:30 AM', sun: '1:00 PM' },
+                { store: 28, mon: '11:00 PM', tue: '11:00 PM', wed: '11:00 PM', thu: '11:00 PM', fri: '11:00 PM', sat: '11:00 PM', sun: '11:00 PM' },
+                { store: 30, mon: '11:00 AM', wed: '11:00 AM', fri: '11:00 AM', sun: '1:00 PM' },
+                { store: 31, mon: '5:30 AM', wed: '5:30 AM', fri: '5:30 AM' },
+                { store: 32, mon: '9:30 AM', tue: '9:30 AM', wed: '9:30 AM', thu: '9:30 AM', fri: '9:30 AM', sat: '9:30 AM' },
+                { store: 33, mon: '7:00 AM', tue: '7:00 AM', wed: '7:00 AM', thu: '7:00 AM', fri: '7:00 AM', sat: '7:00 AM' },
+                { store: 34, mon: '7:00 AM', tue: '7:00 AM', wed: '7:00 AM', thu: '7:00 AM', fri: '7:00 AM', sat: '7:00 AM', sun: '2:30 PM' },
+                { store: 35, mon: '7:30 AM', tue: '7:30 AM', wed: '7:30 AM', thu: '7:30 AM', fri: '7:30 AM', sat: '7:30 AM' },
+                { store: 36, mon: '9:30 AM', tue: '9:30 AM', wed: '9:30 AM', thu: '9:30 AM', fri: '9:30 AM', sat: '9:30 AM', sun: '11:30 AM' },
+                { store: 37, tue: '6:30 AM', thu: '6:30 AM', sat: '6:30 AM' },
+                { store: 38, tue: '8:00 AM', thu: '8:00 AM' },
+                { store: 40, mon: '8:00 AM', wed: '8:00 AM', fri: '8:00 AM' },
+                { store: 41, mon: '11:00 AM', wed: '11:00 AM', fri: '11:00 AM', sat: '5:00 PM' },
+                { store: 42, mon: '4:00 AM', tue: '4:00 AM', wed: '4:00 AM', thu: '4:00 AM', fri: '4:00 AM', sat: '4:00 AM', sun: '12:00 PM' },
+                { store: 44, mon: '8:30 AM', tue: '8:30 AM', wed: '8:30 AM', thu: '8:30 AM', fri: '8:30 AM', sat: '8:30 AM' },
+                { store: 751, mon: '3:00 AM', tue: '3:00 AM', wed: '3:00 AM', thu: '3:00 AM', fri: '3:00 AM', sun: '3:00 AM' }
+            ],
+            combined: [
+                { store: 10, sun: '3:00 PM' },
+                { store: 15, mon: '5:00 AM', tue: '7:00 AM', wed: '6:00 AM', thu: '7:00 AM', fri: '6:00 AM' },
+                { store: 16, tue: '11:00 AM', thu: '11:00 AM', sat: '11:00 AM' },
+                { store: 18, mon: '9:30 AM', tue: '10:30 AM', wed: '9:30 AM', thu: '10:30 AM', fri: '9:30 AM', sat: '10:00 AM' },
+                { store: 21, mon: '6:00 AM', tue: '5:00 AM', wed: '5:00 AM', thu: '5:00 AM', fri: '5:00 AM', sat: '7:00 AM' },
+                { store: 23, mon: '4:00 AM', tue: '6:00 AM', wed: '5:00 AM', thu: '6:00 AM', fri: '5:00 AM' },
+                { store: 26, sun: '4:00 PM' },
+                { store: 28, mon: '11:00 PM', tue: '11:00 PM', wed: '11:00 PM', thu: '11:00 PM', fri: '11:00 PM', sat: '11:00 AM', sun: '11:00 PM' },
+                { store: 29, mon: '8:30 AM', tue: '8:30 AM', wed: '8:30 AM', thu: '8:30 AM', fri: '8:30 AM', sat: '8:30 AM' },
+                { store: 30, tue: '11:00 AM', thu: '11:00 AM', sat: '11:00 AM' },
+                { store: 31, tue: '5:30 AM', thu: '5:30 AM', sat: '5:30 AM' },
+                { store: 37, mon: '6:30 AM', wed: '6:30 AM', fri: '6:30 AM' },
+                { store: 38, mon: '8:00 AM', wed: '8:00 AM', fri: '8:00 AM', sat: '8:00 AM' },
+                { store: 39, mon: '7:00 AM', tue: '7:00 AM', wed: '7:00 AM', thu: '7:00 AM', fri: '7:00 AM', sat: '7:00 AM' },
+                { store: 40, tue: '8:00 AM', thu: '8:00 AM', sat: '8:00 AM' },
+                { store: 41, tue: '11:00 AM', thu: '11:00 AM', sat: '11:00 AM' },
+                { store: 42, tue: '4:00 AM', thu: '4:00 AM', sat: '4:00 AM' },
+                { store: 44, tue: '8:30 AM', thu: '8:30 AM', fri: '6:00 AM', sat: '8:30 AM', sun: '12:00 PM' },
+                { store: 751, mon: '2:00 AM', wed: '2:00 AM', fri: '2:00 AM' }
+            ]
+        };
+
+        const dayMap = {
+            0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat'
+        };
+
+        let currentFilter = 'urgent';
+        let selectedDate = null;
+
+        function parseTime(timeStr) {
+            const [time, period] = timeStr.split(' ');
+            let [hours, minutes] = time.split(':').map(Number);
+            if (period === 'PM' && hours !== 12) hours += 12;
+            if (period === 'AM' && hours === 12) hours = 0;
+            return { hours, minutes };
+        }
+
+        function getTimeStatus(scheduledTime) {
+            const now = new Date();
+            const scheduled = new Date(now);
+            const { hours, minutes } = parseTime(scheduledTime);
+            scheduled.setHours(hours, minutes, 0, 0);
+
+            const diffMinutes = (scheduled - now) / (1000 * 60);
+
+            if (diffMinutes > 120) return 'green';
+            if (diffMinutes >= 20 && diffMinutes <= 45) return 'yellow';
+            if (diffMinutes < 20 && diffMinutes >= 0) return 'red';
+            return 'green';
+        }
+
+        function formatTimeRemaining(scheduledTime) {
+            const now = new Date();
+            const scheduled = new Date(now);
+            const { hours, minutes } = parseTime(scheduledTime);
+            scheduled.setHours(hours, minutes, 0, 0);
+
+            const diffMinutes = Math.round((scheduled - now) / (1000 * 60));
+            
+            if (diffMinutes < 0) {
+                const absDiff = Math.abs(diffMinutes);
+                const hrs = Math.floor(absDiff / 60);
+                const mins = absDiff % 60;
+                return hrs > 0 ? `${hrs}h ${mins}m ago` : `${mins}m ago`;
+            }
+
+            const hrs = Math.floor(diffMinutes / 60);
+            const mins = diffMinutes % 60;
+            
+            if (hrs > 0) {
+                return `${hrs}h ${mins}m remaining`;
+            } else {
+                return `${mins}m remaining`;
+            }
+        }
+
+        function getLoadsForToday() {
+            let now;
+            if (selectedDate) {
+                const parts = selectedDate.split('-');
+                now = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            } else {
+                now = new Date();
+            }
+            const today = dayMap[now.getDay()];
+            const loads = [];
+
+            Object.keys(scheduleData).forEach(type => {
+                if (currentFilter !== 'urgent' && currentFilter !== 'completed' && currentFilter !== 'all' && currentFilter !== type) return;
+
+                scheduleData[type].forEach(load => {
+                    if (load[today]) {
+                        const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                        loads.push({
+                            type: typeName,
+                            store: load.store,
+                            time: load[today],
+                            timeStatus: getTimeStatus(load[today]),
+                            status: 'pending'
+                        });
+                    }
+                });
+            });
+
+            return loads;
+        }
+
+        function renderLoadCard(load) {
+            const minutesUntil = getMinutesUntilLoad(load.time);
+            let cardClass;
+            
+            if (minutesUntil < 0) {
+                cardClass = 'completed';
+            } else {
+                cardClass = load.timeStatus;
+            }
+            
+            return `
+                <div class="load-card ${cardClass}">
+                    <div class="load-info">
+                        <div class="load-type">${load.type}</div>
+                        <div class="load-store">Store ${load.store}</div>
+                    </div>
+                    <div class="load-time">
+                        <div class="scheduled-time">${load.time}</div>
+                        <div class="time-remaining">${formatTimeRemaining(load.time)}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getMinutesUntilLoad(timeStr) {
+            const now = new Date();
+            const scheduled = new Date(now);
+            const { hours, minutes } = parseTime(timeStr);
+            scheduled.setHours(hours, minutes, 0, 0);
+            return Math.round((scheduled - now) / (1000 * 60));
+        }
+
+        function renderScroller() {
+            const allLoads = getLoadsForToday();
+            let now;
+            if (selectedDate) {
+                const parts = selectedDate.split('-');
+                now = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            } else {
+                now = new Date();
+            }
+            const dateStr = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric',
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            if (currentFilter === 'completed') {
+                const completedLoads = allLoads
+                    .filter(load => {
+                        const minutesUntil = getMinutesUntilLoad(load.time);
+                        return minutesUntil < 0;
+                    })
+                    .sort((a, b) => {
+                        const timeA = parseTime(a.time);
+                        const timeB = parseTime(b.time);
+                        return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
+                    });
+
+                document.getElementById('sectionTitle').textContent = `Completed Loads for ${selectedDate ? dateStr : 'Today'} (${completedLoads.length})`;
+                document.getElementById('urgentScroller').innerHTML = 
+                    completedLoads.length > 0 
+                        ? completedLoads.map(renderLoadCard).join('') 
+                        : '<p style="color: var(--color-text-secondary); padding: 20px;">No completed loads for today</p>';
+            } else {
+                const pendingLoads = allLoads
+                    .filter(load => {
+                        const minutesUntil = getMinutesUntilLoad(load.time);
+                        return minutesUntil >= 0;
+                    })
+                    .sort((a, b) => {
+                        const timeA = parseTime(a.time);
+                        const timeB = parseTime(b.time);
+                        return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
+                    });
+
+                document.getElementById('sectionTitle').textContent = `Pending Loads for ${selectedDate ? dateStr : 'Today'} (${pendingLoads.length})`;
+                document.getElementById('urgentScroller').innerHTML = 
+                    pendingLoads.length > 0 
+                        ? pendingLoads.map(renderLoadCard).join('') 
+                        : `<p style="color: var(--color-text-secondary); padding: 20px;">No pending loads for ${selectedDate ? dateStr : 'today'}</p>`;
+            }
+        }
+
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            const dateStr = now.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            const fullDateStr = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric',
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('currentTime').textContent = `${dateStr} • ${timeStr}`;
+            document.getElementById('headerDate').textContent = fullDateStr;
+        }
+
+        document.querySelectorAll('.tab-btn[data-sheet]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn[data-sheet]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.sheet;
+                renderScroller();
+            });
+        });
+
+        let currentEditingType = null;
+
+        function showDataEditor(type) {
+            currentEditingType = type;
+            const modal = document.getElementById('dataModal');
+            const editor = document.getElementById('dataEditor');
+            const title = document.getElementById('modalTitle');
+            
+            title.textContent = `Edit ${type.charAt(0).toUpperCase() + type.slice(1)} Data`;
+            editor.value = JSON.stringify(scheduleData[type], null, 2);
+            modal.classList.add('active');
+        }
+
+        function closeDataEditor() {
+            const modal = document.getElementById('dataModal');
+            modal.classList.remove('active');
+            currentEditingType = null;
+        }
+
+        function saveData() {
+            const editor = document.getElementById('dataEditor');
+            try {
+                const newData = JSON.parse(editor.value);
+                scheduleData[currentEditingType] = newData;
+                alert('Data saved successfully!');
+                closeDataEditor();
+                renderScroller();
+            } catch (e) {
+                alert('Invalid JSON format. Please check your data and try again.\n\nError: ' + e.message);
+            }
+        }
+
+        function showDatePicker() {
+            const modal = document.getElementById('dateModal');
+            const dateInput = document.getElementById('dateInput');
+            
+            if (selectedDate) {
+                dateInput.value = selectedDate;
+            } else {
+                const today = new Date();
+                dateInput.value = today.toISOString().split('T')[0];
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeDatePicker() {
+            const modal = document.getElementById('dateModal');
+            modal.classList.remove('active');
+        }
+
+        function applyDateFilter() {
+            const dateInput = document.getElementById('dateInput');
+            selectedDate = dateInput.value;
+            closeDatePicker();
+            renderScroller();
+        }
+
+        function resetToToday() {
+            selectedDate = null;
+            closeDatePicker();
+            renderScroller();
+        }
+
+        renderScroller();
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+        setInterval(renderScroller, 60000);
+    </script>
+</body>
+</html>
