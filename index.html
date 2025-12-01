@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shipping Load Live Scroller v3</title>
+    <title>Shipping Load Live Scroller v4</title>
     <style>
         :root {
   /* Primitive Color Tokens */
@@ -605,7 +605,7 @@ body {
                 <button class="close-btn" onclick="closeDataEditor()">Close</button>
             </div>
             <p style="color: var(--color-text-secondary); margin-bottom: 15px;">
-                Edit the JSON data below. Format: { store: number, mon: 'TIME', tue: 'TIME', ... }
+                Edit the JSON data below. Format: { "store": number, "store_name": "Name", "mon": "TIME", "tue": "TIME", ... }
             </p>
             <textarea class="data-editor" id="dataEditor"></textarea>
             <div class="modal-actions">
@@ -633,100 +633,7 @@ body {
     </div>
 
     <script>
-        const scheduleData = {
-            grocery: [
-                { store: 2, mon: '8:00 PM', wed: '8:00 PM', fri: '8:00 PM', sat: '4:00 PM' },
-                { store: 3, tue: '1:30 PM', thu: '1:30 PM', sat: '1:30 PM' },
-                { store: 4, mon: '9:00 PM', wed: '9:00 PM', fri: '9:00 PM' },
-                { store: 5, mon: '7:00 AM', tue: '4:30 PM', thu: '4:30 PM', sat: '1:30 PM' },
-                { store: 6, mon: '1:00 PM', wed: '1:00 PM', fri: '1:00 PM' },
-                { store: 7, tue: '1:00 PM', thu: '1:00 PM', sat: '1:00 PM' },
-                { store: 8, tue: '2:00 PM', thu: '2:00 PM', sat: '2:00 PM' },
-                { store: 9, tue: '3:00 PM', thu: '3:00 PM', sat: '3:00 PM' },
-                { store: 10, mon: '11:00 PM', wed: '11:00 PM', fri: '11:00 PM', sat: '7:30 PM' },
-                { store: 11, tue: '12:00 PM', thu: '12:00 PM', sat: '12:00 PM' },
-                { store: 12, mon: '7:00 PM', wed: '7:00 PM', fri: '7:00 PM' },
-                { store: 13, mon: '8:00 PM', wed: '8:00 PM', fri: '8:00 PM' },
-                { store: 14, mon: '1:30 PM', wed: '10:30 AM', thu: '1:30 PM', sat: '1:30 PM' },
-                { store: 17, mon: '1:30 PM', wed: '1:30 PM', fri: '1:30 PM' },
-                { store: 19, mon: '4:00 PM', wed: '4:00 PM', fri: '4:00 PM', sat: '5:00 PM' },
-                { store: 20, mon: '11:30 PM', wed: '11:30 PM', fri: '11:30 PM', sat: '5:00 PM' },
-                { store: 22, tue: '4:30 PM', thu: '4:30 PM', sat: '2:00 PM' },
-                { store: 24, mon: '11:00 PM', wed: '11:00 PM', fri: '11:00 PM', sat: '6:00 PM' },
-                { store: 25, mon: '4:30 PM', wed: '4:30 PM', fri: '4:30 PM' },
-                { store: 26, mon: '10:00 PM', tue: '10:00 PM', thu: '10:00 PM', fri: '10:00 PM' },
-                { store: 27, mon: '3:00 PM', wed: '3:00 PM', fri: '3:00 PM' },
-                { store: 28, mon: '4:00 PM', wed: '4:00 PM', fri: '4:00 PM', sun: '3:30 PM' },
-                { store: 32, tue: '6:00 PM', thu: '6:00 PM', sat: '4:00 PM' },
-                { store: 33, tue: '7:30 PM', thu: '7:30 PM', sat: '4:00 PM' },
-                { store: 34, mon: '2:30 PM', wed: '2:30 PM', fri: '2:30 PM' },
-                { store: 35, tue: '3:30 PM', thu: '3:30 PM', sat: '3:30 PM' },
-                { store: 36, mon: '3:30 PM', wed: '3:30 PM', fri: '3:30 PM' },
-                { store: 37, mon: '2:45 PM', wed: '2:45 PM', fri: '2:45 PM' },
-                { store: 38, mon: '12:30 PM', wed: '12:30 PM', fri: '12:30 PM', sat: '12:30 PM' },
-                { store: 39, mon: '12:00 PM', wed: '12:00 PM', fri: '12:00 PM' }
-            ],
-            produce: [
-                { store: 2, mon: '4:00 AM', tue: '4:00 AM', wed: '4:00 AM', thu: '4:00 AM', fri: '4:00 AM', sat: '4:00 AM' },
-                { store: 3, mon: '6:00 AM', tue: '6:00 AM', wed: '6:00 AM', thu: '6:00 AM', fri: '6:00 AM', sat: '6:00 AM' },
-                { store: 4, mon: '5:00 AM', tue: '5:00 AM', wed: '5:00 AM', thu: '5:00 AM', fri: '5:00 AM', sat: '5:00 AM' },
-                { store: 5, mon: '7:00 AM', tue: '7:00 AM', wed: '7:00 AM', thu: '7:00 AM', fri: '7:00 AM', sat: '7:30 AM', sun: '12:00 PM' },
-                { store: 6, mon: '9:00 AM', tue: '9:00 AM', wed: '9:00 AM', thu: '9:00 AM', fri: '9:00 AM', sat: '9:00 AM', sun: '11:00 AM' },
-                { store: 7, mon: '3:00 AM', tue: '3:00 AM', wed: '3:00 AM', thu: '3:00 AM', fri: '3:00 AM', sat: '3:00 AM', sun: '2:00 PM' },
-                { store: 8, mon: '10:00 AM', tue: '10:00 AM', wed: '10:00 AM', thu: '10:00 AM', fri: '10:00 AM', sat: '10:00 AM' },
-                { store: 9, mon: '11:00 AM', tue: '6:00 AM', wed: '6:00 AM', thu: '6:00 AM', fri: '6:00 AM', sat: '6:00 AM', sun: '1:30 PM' },
-                { store: 10, mon: '4:00 AM', tue: '1:00 AM', wed: '1:00 AM', thu: '1:00 AM', fri: '1:00 AM', sat: '1:00 AM' },
-                { store: 11, mon: '7:30 AM', tue: '7:30 AM', wed: '7:30 AM', thu: '7:30 AM', fri: '7:30 AM', sat: '7:30 AM', sun: '12:00 PM' },
-                { store: 12, mon: '5:00 AM', tue: '5:00 AM', wed: '5:00 AM', thu: '5:00 AM', fri: '5:00 AM', sat: '5:00 AM', sun: '10:00 AM' },
-                { store: 13, mon: '3:00 AM', tue: '3:00 AM', wed: '3:00 AM', thu: '3:00 AM', fri: '3:00 AM', sat: '3:00 AM', sun: '1:30 PM' },
-                { store: 14, mon: '10:30 AM', tue: '10:30 AM', wed: '10:30 AM', thu: '10:30 AM', fri: '10:30 AM', sat: '10:30 AM', sun: '2:30 PM' },
-                { store: 16, mon: '7:00 AM', wed: '7:00 AM', fri: '7:00 AM' },
-                { store: 17, mon: '2:00 AM', tue: '2:00 AM', wed: '2:00 AM', thu: '2:00 AM', fri: '2:00 AM', sat: '2:00 AM', sun: '1:00 PM' },
-                { store: 19, mon: '10:30 AM', tue: '10:30 AM', wed: '10:30 AM', thu: '10:30 AM', fri: '10:30 AM', sat: '10:30 AM' },
-                { store: 20, mon: '3:30 AM', tue: '3:30 AM', wed: '3:30 AM', thu: '3:30 AM', fri: '3:30 AM', sat: '3:30 AM', sun: '2:30 PM' },
-                { store: 22, mon: '12:00 PM', tue: '8:30 AM', wed: '8:30 AM', thu: '8:30 AM', fri: '8:30 AM', sat: '8:30 AM', sun: '1:30 PM' },
-                { store: 24, mon: '6:00 AM', tue: '1:00 AM', wed: '1:00 AM', thu: '1:00 AM', fri: '1:00 AM', sat: '1:00 AM' },
-                { store: 25, mon: '8:30 AM', tue: '8:30 AM', wed: '8:30 AM', thu: '8:30 AM', fri: '8:30 AM', sat: '8:30 AM', sun: '1:00 PM' },
-                { store: 26, mon: '3:30 AM', tue: '3:30 AM', wed: '3:30 AM', thu: '3:30 AM', fri: '3:30 AM', sat: '3:30 AM', sun: '4:00 PM' },
-                { store: 27, mon: '7:30 AM', tue: '5:30 AM', wed: '5:30 AM', thu: '5:30 AM', fri: '5:30 AM', sat: '7:30 AM', sun: '1:00 PM' },
-                { store: 28, mon: '11:00 PM', tue: '11:00 PM', wed: '11:00 PM', thu: '11:00 PM', fri: '11:00 PM', sat: '11:00 PM', sun: '11:00 PM' },
-                { store: 30, mon: '11:00 AM', wed: '11:00 AM', fri: '11:00 AM', sun: '1:00 PM' },
-                { store: 31, mon: '5:30 AM', wed: '5:30 AM', fri: '5:30 AM' },
-                { store: 32, mon: '9:30 AM', tue: '9:30 AM', wed: '9:30 AM', thu: '9:30 AM', fri: '9:30 AM', sat: '9:30 AM' },
-                { store: 33, mon: '7:00 AM', tue: '7:00 AM', wed: '7:00 AM', thu: '7:00 AM', fri: '7:00 AM', sat: '7:00 AM' },
-                { store: 34, mon: '7:00 AM', tue: '7:00 AM', wed: '7:00 AM', thu: '7:00 AM', fri: '7:00 AM', sat: '7:00 AM', sun: '2:30 PM' },
-                { store: 35, mon: '7:30 AM', tue: '7:30 AM', wed: '7:30 AM', thu: '7:30 AM', fri: '7:30 AM', sat: '7:30 AM' },
-                { store: 36, mon: '9:30 AM', tue: '9:30 AM', wed: '9:30 AM', thu: '9:30 AM', fri: '9:30 AM', sat: '9:30 AM', sun: '11:30 AM' },
-                { store: 37, tue: '6:30 AM', thu: '6:30 AM', sat: '6:30 AM' },
-                { store: 38, tue: '8:00 AM', thu: '8:00 AM' },
-                { store: 40, mon: '8:00 AM', wed: '8:00 AM', fri: '8:00 AM' },
-                { store: 41, mon: '11:00 AM', wed: '11:00 AM', fri: '11:00 AM', sat: '5:00 PM' },
-                { store: 42, mon: '4:00 AM', tue: '4:00 AM', wed: '4:00 AM', thu: '4:00 AM', fri: '4:00 AM', sat: '4:00 AM', sun: '12:00 PM' },
-                { store: 44, mon: '8:30 AM', tue: '8:30 AM', wed: '8:30 AM', thu: '8:30 AM', fri: '8:30 AM', sat: '8:30 AM' },
-                { store: 751, mon: '3:00 AM', tue: '3:00 AM', wed: '3:00 AM', thu: '3:00 AM', fri: '3:00 AM', sun: '3:00 AM' }
-            ],
-            combined: [
-                { store: 10, sun: '3:00 PM' },
-                { store: 15, mon: '5:00 AM', tue: '7:00 AM', wed: '6:00 AM', thu: '7:00 AM', fri: '6:00 AM' },
-                { store: 16, tue: '11:00 AM', thu: '11:00 AM', sat: '11:00 AM' },
-                { store: 18, mon: '9:30 AM', tue: '10:30 AM', wed: '9:30 AM', thu: '10:30 AM', fri: '9:30 AM', sat: '10:00 AM' },
-                { store: 21, mon: '6:00 AM', tue: '5:00 AM', wed: '5:00 AM', thu: '5:00 AM', fri: '5:00 AM', sat: '7:00 AM' },
-                { store: 23, mon: '4:00 AM', tue: '6:00 AM', wed: '5:00 AM', thu: '6:00 AM', fri: '5:00 AM' },
-                { store: 26, sun: '4:00 PM' },
-                { store: 28, mon: '11:00 PM', tue: '11:00 PM', wed: '11:00 PM', thu: '11:00 PM', fri: '11:00 PM', sat: '11:00 AM', sun: '11:00 PM' },
-                { store: 29, mon: '8:30 AM', tue: '8:30 AM', wed: '8:30 AM', thu: '8:30 AM', fri: '8:30 AM', sat: '8:30 AM' },
-                { store: 30, tue: '11:00 AM', thu: '11:00 AM', sat: '11:00 AM' },
-                { store: 31, tue: '5:30 AM', thu: '5:30 AM', sat: '5:30 AM' },
-                { store: 37, mon: '6:30 AM', wed: '6:30 AM', fri: '6:30 AM' },
-                { store: 38, mon: '8:00 AM', wed: '8:00 AM', fri: '8:00 AM', sat: '8:00 AM' },
-                { store: 39, mon: '7:00 AM', tue: '7:00 AM', wed: '7:00 AM', thu: '7:00 AM', fri: '7:00 AM', sat: '7:00 AM' },
-                { store: 40, tue: '8:00 AM', thu: '8:00 AM', sat: '8:00 AM' },
-                { store: 41, tue: '11:00 AM', thu: '11:00 AM', sat: '11:00 AM' },
-                { store: 42, tue: '4:00 AM', thu: '4:00 AM', sat: '4:00 AM' },
-                { store: 44, tue: '8:30 AM', thu: '8:30 AM', fri: '6:00 AM', sat: '8:30 AM', sun: '12:00 PM' },
-                { store: 751, mon: '2:00 AM', wed: '2:00 AM', fri: '2:00 AM' }
-            ]
-        };
+        let scheduleData = { grocery: [], produce: [], combined: [] };
 
         const dayMap = {
             0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat'
@@ -734,6 +641,18 @@ body {
 
         let currentFilter = 'urgent';
         let selectedDate = null;
+        let currentEditingType = null;
+
+        async function loadScheduleData() {
+            try {
+                const res = await fetch('scheduleData.json');
+                if (!res.ok) throw new Error('Failed to load JSON');
+                scheduleData = await res.json();
+            } catch (e) {
+                alert('Could not load scheduleData.json. Check that the file exists in the same folder as index.html.\n\n' + e.message);
+            }
+            renderScroller();
+        }
 
         function parseTime(timeStr) {
             const [time, period] = timeStr.split(' ');
@@ -782,6 +701,14 @@ body {
             }
         }
 
+        function getMinutesUntilLoad(timeStr) {
+            const now = new Date();
+            const scheduled = new Date(now);
+            const { hours, minutes } = parseTime(timeStr);
+            scheduled.setHours(hours, minutes, 0, 0);
+            return Math.round((scheduled - now) / (1000 * 60));
+        }
+
         function getLoadsForToday() {
             let now;
             if (selectedDate) {
@@ -802,6 +729,7 @@ body {
                         loads.push({
                             type: typeName,
                             store: load.store,
+                            store_name: load.store_name || '',
                             time: load[today],
                             timeStatus: getTimeStatus(load[today]),
                             status: 'pending'
@@ -823,11 +751,15 @@ body {
                 cardClass = load.timeStatus;
             }
             
+            const storeLabel = load.store_name
+                ? `${load.store} - ${load.store_name}`
+                : `Store ${load.store}`;
+
             return `
                 <div class="load-card ${cardClass}">
                     <div class="load-info">
                         <div class="load-type">${load.type}</div>
-                        <div class="load-store">Store ${load.store}</div>
+                        <div class="load-store">${storeLabel}</div>
                     </div>
                     <div class="load-time">
                         <div class="scheduled-time">${load.time}</div>
@@ -835,14 +767,6 @@ body {
                     </div>
                 </div>
             `;
-        }
-
-        function getMinutesUntilLoad(timeStr) {
-            const now = new Date();
-            const scheduled = new Date(now);
-            const { hours, minutes } = parseTime(timeStr);
-            scheduled.setHours(hours, minutes, 0, 0);
-            return Math.round((scheduled - now) / (1000 * 60));
         }
 
         function renderScroller() {
@@ -929,8 +853,6 @@ body {
             });
         });
 
-        let currentEditingType = null;
-
         function showDataEditor(type) {
             currentEditingType = type;
             const modal = document.getElementById('dataModal');
@@ -953,7 +875,7 @@ body {
             try {
                 const newData = JSON.parse(editor.value);
                 scheduleData[currentEditingType] = newData;
-                alert('Data saved successfully!');
+                alert('Data saved in app (to sync to GitHub, use the API route setup).');
                 closeDataEditor();
                 renderScroller();
             } catch (e) {
@@ -993,7 +915,7 @@ body {
             renderScroller();
         }
 
-        renderScroller();
+        loadScheduleData();
         updateCurrentTime();
         setInterval(updateCurrentTime, 1000);
         setInterval(renderScroller, 60000);
