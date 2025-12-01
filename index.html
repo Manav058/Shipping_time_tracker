@@ -870,18 +870,39 @@ body {
             currentEditingType = null;
         }
 
-        function saveData() {
-            const editor = document.getElementById('dataEditor');
+        async function saveData() {
+    const editor = document.getElementById('dataEditor');
+
+    try {
+        // 1) Update in‑memory data
+        const newData = JSON.parse(editor.value);
+        scheduleData[currentEditingType] = newData;
+        renderScroller();
+
+        // 2) Try to sync to GitHub via API
+        const res = await fetch('/api/update-schedule', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ scheduleData })
+        });
+
+        if (!res.ok) {
+            let msg = res.statusText;
             try {
-                const newData = JSON.parse(editor.value);
-                scheduleData[currentEditingType] = newData;
-                alert('Data saved in app (to sync to GitHub, use the API route setup).');
-                closeDataEditor();
-                renderScroller();
-            } catch (e) {
-                alert('Invalid JSON format. Please check your data and try again.\n\nError: ' + e.message);
-            }
+                const err = await res.json();
+                if (err && err.details) msg = err.details;
+            } catch (_) {}
+            alert('Saved locally, but GitHub sync failed: ' + msg);
+            return;
         }
+
+        alert('Data saved and synced to GitHub successfully!');
+        closeDataEditor();
+    } catch (e) {
+        alert('Invalid JSON format. Please check your data and try again.\n\nError: ' + e.message);
+    }
+}
+
 
         function showDatePicker() {
             const modal = document.getElementById('dateModal');
