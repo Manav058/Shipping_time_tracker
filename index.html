@@ -286,6 +286,41 @@ body {
     transform: translateY(-2px);
 }
 
+/* View mode specific card sizing */
+body.mobile-view .load-card {
+  padding: 12px 14px;
+  min-height: 60px;
+}
+
+body.mobile-view .load-store {
+  font-size: var(--font-size-xl);
+}
+
+body.mobile-view .scheduled-time {
+  font-size: var(--font-size-lg);
+}
+
+body.mobile-view .time-remaining {
+  font-size: var(--font-size-sm);
+}
+
+body.tv-view .load-card {
+  padding: 24px 28px;
+  min-height: 90px;
+}
+
+body.tv-view .load-store {
+  font-size: 28px;
+}
+
+body.tv-view .scheduled-time {
+  font-size: 24px;
+}
+
+body.tv-view .time-remaining {
+  font-size: 16px;
+}
+
 .load-card.green {
     border-color: var(--color-green);
     background: var(--color-green-bg);
@@ -545,7 +580,7 @@ body {
 }
     </style>
 </head>
-<body>
+<body class="tv-view">
     <div class="container">
         <div class="header">
             <div class="header-row">
@@ -554,6 +589,12 @@ body {
                     <div class="header-date" id="headerDate"></div>
                 </div>
                 <div class="current-time" id="currentTime"></div>
+                <div class="controls">
+                    <div class="tab-buttons">
+                        <button class="tab-btn" id="mobileViewBtn" onclick="setViewMode('mobile')">📱 Mobile View</button>
+                        <button class="tab-btn active" id="tvViewBtn" onclick="setViewMode('tv')">📺 TV View</button>
+                    </div>
+                </div>
             </div>
             <div class="header-row">
                 <div class="controls">
@@ -563,15 +604,12 @@ body {
                         <button class="tab-btn" data-sheet="all">All</button>
                         <button class="tab-btn" data-sheet="grocery">Grocery</button>
                         <button class="tab-btn" data-sheet="produce">Produce</button>
-                        <button class="tab-btn" data-sheet="combined">Combined</button>
                     </div>
                 </div>
                 <div class="controls">
                     <div class="tab-buttons">
                         <button class="tab-btn" onclick="showDataEditor('grocery')">📋 Grocery Data</button>
                         <button class="tab-btn" onclick="showDataEditor('produce')">📋 Produce Data</button>
-                        <button class="tab-btn" onclick="showDataEditor('combined')">📋 Combined Data</button>
-                        <button class="tab-btn" onclick="showDatePicker()">📅 Select Date</button>
                     </div>
                 </div>
             </div>
@@ -871,38 +909,35 @@ body {
         }
 
         async function saveData() {
-    const editor = document.getElementById('dataEditor');
+            const editor = document.getElementById('dataEditor');
 
-    try {
-        // 1) Update in‑memory data
-        const newData = JSON.parse(editor.value);
-        scheduleData[currentEditingType] = newData;
-        renderScroller();
-
-        // 2) Try to sync to GitHub via API
-        const res = await fetch('/api/update-schedule', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ scheduleData })
-        });
-
-        if (!res.ok) {
-            let msg = res.statusText;
             try {
-                const err = await res.json();
-                if (err && err.details) msg = err.details;
-            } catch (_) {}
-            alert('Saved locally, but GitHub sync failed: ' + msg);
-            return;
+                const newData = JSON.parse(editor.value);
+                scheduleData[currentEditingType] = newData;
+                renderScroller();
+
+                const res = await fetch('/api/update-schedule', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ scheduleData })
+                });
+
+                if (!res.ok) {
+                    let msg = res.statusText;
+                    try {
+                        const err = await res.json();
+                        if (err && err.details) msg = err.details;
+                    } catch (_) {}
+                    alert('Saved locally, but GitHub sync failed: ' + msg);
+                    return;
+                }
+
+                alert('Data saved and synced to GitHub successfully!');
+                closeDataEditor();
+            } catch (e) {
+                alert('Invalid JSON format. Please check your data and try again.\n\nError: ' + e.message);
+            }
         }
-
-        alert('Data saved and synced to GitHub successfully!');
-        closeDataEditor();
-    } catch (e) {
-        alert('Invalid JSON format. Please check your data and try again.\n\nError: ' + e.message);
-    }
-}
-
 
         function showDatePicker() {
             const modal = document.getElementById('dateModal');
@@ -934,6 +969,24 @@ body {
             selectedDate = null;
             closeDatePicker();
             renderScroller();
+        }
+
+        function setViewMode(mode) {
+            const body = document.body;
+            const mobileBtn = document.getElementById('mobileViewBtn');
+            const tvBtn = document.getElementById('tvViewBtn');
+
+            if (mode === 'mobile') {
+                body.classList.add('mobile-view');
+                body.classList.remove('tv-view');
+                mobileBtn.classList.add('active');
+                tvBtn.classList.remove('active');
+            } else {
+                body.classList.add('tv-view');
+                body.classList.remove('mobile-view');
+                tvBtn.classList.add('active');
+                mobileBtn.classList.remove('active');
+            }
         }
 
         loadScheduleData();
