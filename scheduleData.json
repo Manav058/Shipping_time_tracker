@@ -2,215 +2,200 @@
   "grocery": [
     {
       "store": 2,
-      "store_name": "Oakville",
       "mon": "7:00 PM",
       "wed": "7:00 PM",
       "fri": "7:00 PM",
-      "sat": "3:00 PM"
+      "sat": "3:00 PM",
+      "sun": "3:00 PM"
     },
     {
       "store": 3,
-      "store_name": "Fairview",
-      "tue": "12:30 PM",
-      "thu": "12:30 PM",
-      "sat": "12:30 PM"
-    },
-    {
-      "store": 4,
-      "store_name": "Markham",
-      "mon": "7:30 PM",
-      "wed": "7:30 PM",
-      "fri": "8:00 PM"
-    },
-    {
-      "store": 5,
-      "store_name": "Bayview",
-      "tue": "1:00 PM",
-      "thu": "1:00 PM",
-      "sat": "1:00 PM"
-    },
-    {
-      "store": 6,
-      "store_name": "Weston",
-      "mon": "12:00 PM",
-      "wed": "12:00 PM",
-      "fri": "1:00 PM"
-    },
-    {
-      "store": 7,
-      "store_name": "Brampton",
       "tue": "1:30 PM",
       "thu": "1:30 PM",
       "sat": "1:30 PM"
     },
     {
+      "store": 4,
+      "mon": "7:30 PM",
+      "wed": "7:30 PM",
+      "fri": "8:00 PM",
+      "sun": "7:30 PM"
+    },
+    {
+      "store": 5,
+      "mon": "7:00 AM",
+      "tue": "4:30 PM",
+      "thu": "4:30 PM",
+      "sat": "1:30 PM"
+    },
+    {
+      "store": 6,
+      "mon": "1:00 PM",
+      "wed": "1:00 PM",
+      "fri": "1:00 PM",
+      "sun": "12:00 PM"
+    },
+    {
+      "store": 7,
+      "tue": "1:00 PM",
+      "thu": "1:00 PM",
+      "sat": "1:00 PM"
+    },
+    {
       "store": 8,
-      "store_name": "Glen Erin",
+      "tue": "1:00 PM",
+      "thu": "1:00 PM",
+      "sat": "1:00 PM"
+    },
+    {
+      "store": 9,
       "tue": "2:00 PM",
       "thu": "2:00 PM",
       "sat": "2:00 PM"
     },
     {
-      "store": 9,
-      "store_name": "Walkers Line",
-      "tue": "3:00 PM",
-      "thu": "3:00 PM",
-      "sat": "3:00 PM"
-    },
-    {
       "store": 10,
-      "store_name": "York Mills",
-      "mon": "11:00 PM",
-      "wed": "11:00 PM",
-      "fri": "11:00 PM",
-      "sat": "7:30 PM"
+      "mon": "10:00 PM",
+      "wed": "10:00 PM",
+      "fri": "10:00 PM",
+      "sat": "6:00 PM",
+      "sun": "2:00 PM"
     },
     {
       "store": 11,
-      "store_name": "Rutherford",
-      "tue": "12:00 PM",
-      "thu": "12:00 PM",
-      "sat": "12:00 PM"
+      "tue": "11:00 PM",
+      "thu": "11:00 PM",
+      "sat": "11:00 PM"
     },
     {
       "store": 12,
-      "store_name": "Maple",
       "mon": "6:00 PM",
       "wed": "6:00 PM",
       "fri": "6:00 PM"
     },
     {
       "store": 13,
-      "store_name": "Winston",
-      "mon": "8:00 PM",
-      "wed": "8:00 PM",
-      "fri": "8:00 PM"
+      "mon": "7:00 PM",
+      "wed": "7:00 PM",
+      "fri": "7:00 PM",
+      "sun": "7:00 PM"
     },
     {
       "store": 14,
-      "store_name": "Ponytrail",
-      "mon": "12:30 PM"
+      "mon": "12:30 PM",
+      "thu": "12:30 PM",
+      "sat": "12:30 PM"
     },
     {
       "store": 17,
-      "store_name": "Boxgrove",
       "mon": "12:30 PM",
       "wed": "12:30 PM",
       "fri": "12:30 PM"
     },
     {
       "store": 19,
-      "store_name": "Aurora",
-      "sat": "5:00 PM"
+      "mon": "3:00 PM",
+      "wed": "3:00 PM",
+      "fri": "3:00 PM",
+      "sat": "4:00 PM",
+      "sun": "4:00 PM"
     },
     {
       "store": 20,
-      "store_name": "Bathurst",
-      "mon": "2:30 PM",
-      "wed": "2:30 PM",
-      "thu": "2:30 PM",
-      "fri": "3:30 PM",
-      "sat": "5:00 PM"
+      "mon": "10:30 PM",
+      "wed": "10:30 PM",
+      "fri": "10:30 PM",
+      "thu": "10:30 PM",
+      "sat": "4:00 PM",
+      "sun": "4:00 PM"
     },
     {
       "store": 22,
-      "store_name": "Richmond Hill",
-      "tue": "4:30 PM",
-      "thu": "4:30 PM",
-      "sat": "2:00 PM"
+      "tue": "3:30 PM",
+      "thu": "3:30 PM",
+      "sat": "1:00 PM"
     },
     {
       "store": 24,
-      "store_name": "MLS",
-      "mon": "11:00 PM",
-      "wed": "11:00 PM",
-      "fri": "11:00 PM",
-      "sat": "6:00 PM"
+      "mon": "10:00 PM",
+      "wed": "10:00 PM",
+      "fri": "10:00 PM",
+      "sat": "5:00 PM"
     },
     {
       "store": 25,
-      "store_name": "Milton",
       "mon": "3:30 PM",
       "wed": "3:30 PM",
       "fri": "3:30 PM"
     },
     {
       "store": 26,
-      "store_name": "Leaside",
-      "mon": "10:00 PM",
-      "tue": "10:00 PM",
-      "thu": "10:00 PM",
-      "fri": "10:00 PM"
+      "mon": "9:00 PM",
+      "tue": "9:00 PM",
+      "thu": "9:00 PM",
+      "fri": "9:00 PM",
+      "sun": "3:00 PM"
     },
     {
       "store": 27,
-      "store_name": "S.E. Oakville",
       "mon": "2:00 PM",
       "wed": "2:00 PM",
       "fri": "2:00 PM"
     },
     {
       "store": 28,
-      "store_name": "Applewood",
-      "mon": "4:00 PM",
-      "wed": "4:00 PM",
-      "fri": "4:00 PM",
-      "sun": "3:30 PM"
+      "mon": "3:00 PM",
+      "wed": "3:00 PM",
+      "fri": "3:00 PM",
+      "sun": "2:30 PM"
     },
     {
       "store": 32,
-      "store_name": "Guelph",
-      "tue": "6:00 PM",
-      "thu": "6:00 PM",
-      "sat": "4:00 PM"
+      "tue": "5:00 PM",
+      "thu": "5:00 PM",
+      "sat": "3:00 PM"
     },
     {
       "store": 33,
-      "store_name": "Ajax",
-      "tue": "7:30 PM",
-      "thu": "7:30 PM",
-      "sat": "4:00 PM"
+      "tue": "6:00 PM",
+      "thu": "6:00 PM",
+      "sat": "2:00 PM"
     },
     {
       "store": 34,
-      "store_name": "Stouffville",
       "mon": "1:30 PM",
       "wed": "1:30 PM",
       "fri": "1:30 PM"
     },
     {
       "store": 35,
-      "store_name": "Yonge & Sheppard",
-      "sat": "7:30 PM"
+      "mon": "2:30 PM",
+      "tue": "2:30 PM",
+      "thu": "2:30 PM",
+      "sat": "2:30 PM"
     },
     {
       "store": 36,
-      "store_name": "Green Lane",
       "mon": "2:30 PM",
       "wed": "2:30 PM",
-      "fri": "2:30 PM"
-    },
-    {
-      "store": 37,
-      "store_name": "Richmond & Dundas",
-      "mon": "2:45 PM",
-      "wed": "2:45 PM",
-      "fri": "2:45 PM"
+      "fri": "2:30 PM",
+      "sun": "2:30 PM"
     },
     {
       "store": 38,
-      "store_name": "Brooklin",
       "mon": "11:00 AM",
       "wed": "11:00 AM",
-      "fri": "11:00 AM",
-      "sat": "12:30 PM"
+      "fri": "11:00 AM"
     },
     {
-      "store": 39,
-      "store_name": "Bolton",
-      "mon": "12:00 PM",
-      "wed": "12:00 PM",
-      "fri": "12:00 PM"
+      "store": 43,
+      "mon": "2:00 PM",
+      "tue": "2:00 PM",
+      "wed": "2:00 PM",
+      "thu": "2:00 PM",
+      "sat": "2:00 PM",
+      "fri": "2:00 PM",
+      "sun": "2:00 PM"
     }
   ],
   "produce": [
