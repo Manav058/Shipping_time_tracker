@@ -11,12 +11,14 @@
     },
     {
       "store": 3,
+      "store_name": "Fairview",
       "tue": "1:30 PM",
       "thu": "1:30 PM",
       "sat": "1:30 PM"
     },
     {
       "store": 4,
+      "store_name": "Markham",
       "mon": "7:30 PM",
       "wed": "7:30 PM",
       "fri": "8:00 PM",
