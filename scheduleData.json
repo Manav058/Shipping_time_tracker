@@ -24,6 +24,7 @@
     },
     {
       "store": 5,
+      "store_name": "Bayview",
       "mon": "7:00 AM",
       "tue": "4:30 PM",
       "thu": "4:30 PM",
