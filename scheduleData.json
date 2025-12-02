@@ -2,6 +2,7 @@
   "grocery": [
     {
       "store": 2,
+      "store_name": "Oakville",
       "mon": "7:00 PM",
       "wed": "7:00 PM",
       "fri": "7:00 PM",
