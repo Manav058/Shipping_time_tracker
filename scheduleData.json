@@ -27,10 +27,9 @@
     {
       "store": 5,
       "store_name": "Bayview",
-      "mon": "7:00 AM",
-      "tue": "4:30 PM",
-      "thu": "4:30 PM",
-      "sat": "1:30 PM"
+      "tue": "3:30 PM",
+      "thu": "3:30 PM",
+      "sat": "12:30 PM"
     },
     {
       "store": 6,
