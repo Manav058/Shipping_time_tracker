@@ -34,6 +34,7 @@
     },
     {
       "store": 6,
+      "store_name": "Weston",
       "mon": "1:00 PM",
       "wed": "1:00 PM",
       "fri": "1:00 PM",
@@ -41,24 +42,28 @@
     },
     {
       "store": 7,
+      "store_name": "Brampton",
       "tue": "1:00 PM",
       "thu": "1:00 PM",
       "sat": "1:00 PM"
     },
     {
       "store": 8,
+      "store_name": "Glenerin",
       "tue": "1:00 PM",
       "thu": "1:00 PM",
       "sat": "1:00 PM"
     },
     {
       "store": 9,
+      "store_name": "Walkers Line",
       "tue": "2:00 PM",
       "thu": "2:00 PM",
       "sat": "2:00 PM"
     },
     {
       "store": 10,
+      "store_name": "York Mills",
       "mon": "10:00 PM",
       "wed": "10:00 PM",
       "fri": "10:00 PM",
@@ -67,18 +72,21 @@
     },
     {
       "store": 11,
+      "store_name": "Rutherford",
       "tue": "11:00 PM",
       "thu": "11:00 PM",
       "sat": "11:00 PM"
     },
     {
       "store": 12,
+      "store_name": "Maple",
       "mon": "6:00 PM",
       "wed": "6:00 PM",
       "fri": "6:00 PM"
     },
     {
       "store": 13,
+      "store_name": "Winston",
       "mon": "7:00 PM",
       "wed": "7:00 PM",
       "fri": "7:00 PM",
@@ -86,18 +94,21 @@
     },
     {
       "store": 14,
+      "store_name": "Ponytrail",
       "mon": "12:30 PM",
       "thu": "12:30 PM",
       "sat": "12:30 PM"
     },
     {
       "store": 17,
+      "store_name": "BoxGrove",
       "mon": "12:30 PM",
       "wed": "12:30 PM",
       "fri": "12:30 PM"
     },
     {
       "store": 19,
+      "store_name": "Aurora",
       "mon": "3:00 PM",
       "wed": "3:00 PM",
       "fri": "3:00 PM",
@@ -106,6 +117,7 @@
     },
     {
       "store": 20,
+      "store_name": "Bathurst",
       "mon": "10:30 PM",
       "wed": "10:30 PM",
       "fri": "10:30 PM",
@@ -115,12 +127,14 @@
     },
     {
       "store": 22,
+      "store_name": "Richmond Hill",
       "tue": "3:30 PM",
       "thu": "3:30 PM",
       "sat": "1:00 PM"
     },
     {
       "store": 24,
+      "store_name": "MLS",
       "mon": "10:00 PM",
       "wed": "10:00 PM",
       "fri": "10:00 PM",
@@ -128,12 +142,14 @@
     },
     {
       "store": 25,
+      "store_name": "Milton",
       "mon": "3:30 PM",
       "wed": "3:30 PM",
       "fri": "3:30 PM"
     },
     {
       "store": 26,
+      "store_name": "Leaside",
       "mon": "9:00 PM",
       "tue": "9:00 PM",
       "thu": "9:00 PM",
@@ -142,12 +158,14 @@
     },
     {
       "store": 27,
+      "store_name": "SE Oakville",
       "mon": "2:00 PM",
       "wed": "2:00 PM",
       "fri": "2:00 PM"
     },
     {
       "store": 28,
+      "store_name": "Applewood",
       "mon": "3:00 PM",
       "wed": "3:00 PM",
       "fri": "3:00 PM",
@@ -155,24 +173,28 @@
     },
     {
       "store": 32,
+      "store_name": "Guelph",
       "tue": "5:00 PM",
       "thu": "5:00 PM",
       "sat": "3:00 PM"
     },
     {
       "store": 33,
+      "store_name": "Ajax",
       "tue": "6:00 PM",
       "thu": "6:00 PM",
       "sat": "2:00 PM"
     },
     {
       "store": 34,
+      "store_name": "Stouffville",
       "mon": "1:30 PM",
       "wed": "1:30 PM",
       "fri": "1:30 PM"
     },
     {
       "store": 35,
+      "store_name": "Yonge & Sheppard",
       "mon": "2:30 PM",
       "tue": "2:30 PM",
       "thu": "2:30 PM",
@@ -180,6 +202,7 @@
     },
     {
       "store": 36,
+      "store_name": "Green Lane",
       "mon": "2:30 PM",
       "wed": "2:30 PM",
       "fri": "2:30 PM",
@@ -187,12 +210,14 @@
     },
     {
       "store": 38,
+      "store_name": "Brooklin",
       "mon": "11:00 AM",
       "wed": "11:00 AM",
       "fri": "11:00 AM"
     },
     {
       "store": 43,
+      "store_name": "Queensway",
       "mon": "2:00 PM",
       "tue": "2:00 PM",
       "wed": "2:00 PM",
