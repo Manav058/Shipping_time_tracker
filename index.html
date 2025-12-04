@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shipping Load Live Scroller v4</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
   /* Primitive Color Tokens */
@@ -528,16 +529,13 @@ body.tv-view .time-remaining {
     background: var(--color-primary-hover);
 }
 
-.date-picker-input {
+.sync-status {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
     padding: var(--space-8) var(--space-12);
-    border: 1px solid var(--color-border);
+    background: rgba(var(--color-teal-500-rgb), 0.1);
     border-radius: var(--radius-sm);
-    background: var(--color-surface);
-    color: var(--color-text);
-    font-size: var(--font-size-base);
-    cursor: pointer;
-    width: 100%;
-    font-family: var(--font-family-base);
+    white-space: nowrap;
 }
 
 @media (max-width: 768px) {
@@ -610,6 +608,7 @@ body.tv-view .time-remaining {
                     <div class="tab-buttons">
                         <button class="tab-btn" onclick="showDataEditor('grocery')">📋 Grocery Data</button>
                         <button class="tab-btn" onclick="showDataEditor('produce')">📋 Produce Data</button>
+                        <button class="tab-btn" onclick="manualRefresh()">🔄 Refresh Data</button>
                     </div>
                 </div>
             </div>
@@ -633,6 +632,7 @@ body.tv-view .time-remaining {
                 <div class="legend-color red"></div>
                 <span>&lt; 20 min</span>
             </div>
+            <div class="legend-item sync-status" id="syncStatus">✅ Synced</div>
         </div>
     </div>
 
@@ -653,23 +653,6 @@ body.tv-view .time-remaining {
         </div>
     </div>
 
-    <div class="modal" id="dateModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Select Date</h2>
-                <button class="close-btn" onclick="closeDatePicker()">Close</button>
-            </div>
-            <p style="color: var(--color-text-secondary); margin-bottom: 15px;">
-                Choose a date to view loads scheduled for that day
-            </p>
-            <input type="date" id="dateInput" class="date-picker-input" style="margin-bottom: 20px;">
-            <div class="modal-actions">
-                <button class="save-btn" onclick="applyDateFilter()">View Loads</button>
-                <button class="close-btn" onclick="resetToToday()">Reset to Today</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         let scheduleData = { grocery: [], produce: [], combined: [] };
 
@@ -681,23 +664,111 @@ body.tv-view .time-remaining {
         let selectedDate = null;
         let currentEditingType = null;
 
-        async function loadScheduleData() {
+        async function loadExcelFromGitHub() {
             try {
-                const res = await fetch('scheduleData.json');
-                if (!res.ok) throw new Error('Failed to load JSON');
-                scheduleData = await res.json();
+                const groceryUrl = 'https://raw.githubusercontent.com/Manav058/Shipping_time_tracker/main/Gorcery_Loads.xlsx';
+                const produceUrl = 'https://raw.githubusercontent.com/Manav058/Shipping_time_tracker/main/Produce_Loads.xlsx';
+                
+                const groceryRes = await fetch(groceryUrl);
+                const produceRes = await fetch(produceUrl);
+                
+                if (groceryRes.ok && produceRes.ok) {
+                    const groceryData = await groceryRes.arrayBuffer();
+                    const produceData = await produceRes.arrayBuffer();
+                    
+                    const groceryWorkbook = XLSX.read(groceryData, { type: 'array' });
+                    const produceWorkbook = XLSX.read(produceData, { type: 'array' });
+                    
+                    const grocerySheet = groceryWorkbook.Sheets[groceryWorkbook.SheetNames[0]];
+                    const produceSheet = produceWorkbook.Sheets[produceWorkbook.SheetNames[0]];
+                    
+                    scheduleData.grocery = normalizeData(XLSX.utils.sheet_to_json(grocerySheet));
+                    scheduleData.produce = normalizeData(XLSX.utils.sheet_to_json(produceSheet));
+                    
+                    updateSyncStatus('✅ Synced');
+                    console.log('✅ Excel files loaded from GitHub');
+                    renderScroller();
+                } else {
+                    updateSyncStatus('⚠️ Using cached data');
+                    console.log('Could not fetch Excel from GitHub');
+                }
             } catch (e) {
-                alert('Could not load scheduleData.json. Check that the file exists in the same folder as index.html.\n\n' + e.message);
+                updateSyncStatus('⚠️ Using cached data');
+                console.log('Error loading Excel from GitHub:', e.message);
             }
-            renderScroller();
+        }
+
+        function normalizeData(data) {
+            return data.map(row => {
+                const cleaned = {};
+                Object.keys(row).forEach(key => {
+                    const trimmedKey = key.trim().toLowerCase();
+                    if (row[key] !== undefined && row[key] !== '') {
+                        cleaned[trimmedKey] = isNaN(row[key]) ? row[key].toString().trim() : Number(row[key]);
+                    }
+                });
+                return cleaned;
+            });
+        }
+
+        function updateSyncStatus(status) {
+            const syncEl = document.getElementById('syncStatus');
+            if (syncEl) {
+                syncEl.textContent = status;
+            }
+        }
+
+        function manualRefresh() {
+            updateSyncStatus('⏳ Syncing...');
+            loadExcelFromGitHub();
         }
 
         function parseTime(timeStr) {
-            const [time, period] = timeStr.split(' ');
-            let [hours, minutes] = time.split(':').map(Number);
+            if (!timeStr || typeof timeStr !== 'string') return { hours: 0, minutes: 0 };
+            
+            const timeStr_clean = timeStr.trim().toUpperCase();
+            const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM)?/;
+            const match = timeStr_clean.match(timeRegex);
+            
+            if (!match) return { hours: 0, minutes: 0 };
+            
+            let hours = parseInt(match[1]);
+            const minutes = parseInt(match[2]);
+            const period = match[3];
+            
             if (period === 'PM' && hours !== 12) hours += 12;
             if (period === 'AM' && hours === 12) hours = 0;
+            
             return { hours, minutes };
+        }
+
+        function formatTimeDisplay(timeStr) {
+            if (!timeStr || typeof timeStr !== 'string') return 'N/A';
+            
+            const timeStr_clean = timeStr.trim().toUpperCase();
+            const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM)?/;
+            const match = timeStr_clean.match(timeRegex);
+            
+            if (!match) return timeStr;
+            
+            let hours = parseInt(match[1]);
+            const minutes = parseInt(match[2]);
+            const period = match[3] || 'AM';
+            
+            if (!period && hours >= 12) {
+                const displayHours = hours > 12 ? hours - 12 : hours;
+                return `${displayHours}:${minutes.toString().padStart(2, '0')} PM`;
+            }
+            
+            if (period === 'PM' && hours !== 12) {
+                return `${hours}:${minutes.toString().padStart(2, '0')} PM`;
+            } else if (period === 'AM' && hours !== 12) {
+                return `${hours}:${minutes.toString().padStart(2, '0')} AM`;
+            } else if (hours === 12) {
+                return `12:${minutes.toString().padStart(2, '0')} ${period}`;
+            }
+            
+            return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
         }
 
         function getTimeStatus(scheduledTime) {
@@ -800,7 +871,7 @@ body.tv-view .time-remaining {
                         <div class="load-store">${storeLabel}</div>
                     </div>
                     <div class="load-time">
-                        <div class="scheduled-time">${load.time}</div>
+                        <div class="scheduled-time">${formatTimeDisplay(load.time)}</div>
                         <div class="time-remaining">${formatTimeRemaining(load.time)}</div>
                     </div>
                 </div>
@@ -939,38 +1010,6 @@ body.tv-view .time-remaining {
             }
         }
 
-        function showDatePicker() {
-            const modal = document.getElementById('dateModal');
-            const dateInput = document.getElementById('dateInput');
-            
-            if (selectedDate) {
-                dateInput.value = selectedDate;
-            } else {
-                const today = new Date();
-                dateInput.value = today.toISOString().split('T')[0];
-            }
-            
-            modal.classList.add('active');
-        }
-
-        function closeDatePicker() {
-            const modal = document.getElementById('dateModal');
-            modal.classList.remove('active');
-        }
-
-        function applyDateFilter() {
-            const dateInput = document.getElementById('dateInput');
-            selectedDate = dateInput.value;
-            closeDatePicker();
-            renderScroller();
-        }
-
-        function resetToToday() {
-            selectedDate = null;
-            closeDatePicker();
-            renderScroller();
-        }
-
         function setViewMode(mode) {
             const body = document.body;
             const mobileBtn = document.getElementById('mobileViewBtn');
@@ -989,10 +1028,12 @@ body.tv-view .time-remaining {
             }
         }
 
-        loadScheduleData();
+        // Initialize
+        loadExcelFromGitHub();
         updateCurrentTime();
         setInterval(updateCurrentTime, 1000);
         setInterval(renderScroller, 60000);
+        setInterval(loadExcelFromGitHub, 300000); // Auto-refresh every 5 minutes
     </script>
 </body>
 </html>
