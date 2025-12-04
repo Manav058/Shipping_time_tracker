@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
+  /* Primitive Color Tokens */
   --color-white: rgba(255, 255, 255, 1);
   --color-black: rgba(0, 0, 0, 1);
   --color-cream-50: rgba(252, 252, 249, 1);
@@ -30,6 +31,7 @@
   --color-orange-400: rgba(230, 129, 97, 1);
   --color-orange-500: rgba(168, 75, 47, 1);
 
+  /* RGB versions for opacity control */
   --color-brown-600-rgb: 94, 82, 64;
   --color-teal-500-rgb: 33, 128, 141;
   --color-slate-900-rgb: 19, 52, 59;
@@ -42,6 +44,7 @@
   --color-gray-300-rgb: 167, 169, 169;
   --color-gray-200-rgb: 245, 245, 245;
 
+  /* Background color tokens (Light Mode) */
   --color-bg-1: rgba(59, 130, 246, 0.08);
   --color-bg-2: rgba(245, 158, 11, 0.08);
   --color-bg-3: rgba(34, 197, 94, 0.08);
@@ -51,6 +54,7 @@
   --color-bg-7: rgba(236, 72, 153, 0.08);
   --color-bg-8: rgba(6, 182, 212, 0.08);
 
+  /* Semantic Color Tokens (Light Mode) */
   --color-background: var(--color-cream-50);
   --color-surface: var(--color-cream-100);
   --color-text: var(--color-slate-900);
@@ -72,6 +76,7 @@
   --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
   --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
 
+  /* Custom colors */
   --color-green: rgba(34, 197, 94, 1);
   --color-yellow: rgba(234, 179, 8, 1);
   --color-red: rgba(239, 68, 68, 1);
@@ -79,6 +84,7 @@
   --color-yellow-bg: rgba(234, 179, 8, 0.1);
   --color-red-bg: rgba(239, 68, 68, 0.1);
 
+  /* Typography */
   --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-size-xs: 11px;
@@ -96,6 +102,7 @@
   --line-height-tight: 1.2;
   --line-height-normal: 1.5;
 
+  /* Spacing */
   --space-4: 4px;
   --space-8: 8px;
   --space-12: 12px;
@@ -104,15 +111,18 @@
   --space-24: 24px;
   --space-32: 32px;
 
+  /* Border Radius */
   --radius-sm: 6px;
   --radius-base: 8px;
   --radius-md: 10px;
   --radius-lg: 12px;
   --radius-full: 9999px;
 
+  /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
 
+  /* Animation */
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
@@ -140,75 +150,431 @@
   }
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--font-family-base);background:var(--color-background);color:var(--color-text);overflow-x:hidden}
-.container{min-height:100vh;display:flex;flex-direction:column}
-.header{background:var(--color-surface);border-bottom:1px solid var(--color-border)}
-.header-row{display:flex;justify-content:space-between;align-items:center;padding:var(--space-20) var(--space-32);border-bottom:1px solid var(--color-border)}
-.header-row:last-child{border-bottom:none}
-.header-left{display:flex;flex-direction:column;gap:var(--space-4)}
-.header h1{font-size:var(--font-size-3xl);font-weight:var(--font-weight-bold)}
-.header-date{font-size:var(--font-size-base);color:var(--color-text-secondary);font-weight:var(--font-weight-medium)}
-.controls{display:flex;gap:var(--space-16);align-items:center}
-.tab-buttons{display:flex;gap:var(--space-8);flex-wrap:wrap}
-.tab-btn{padding:var(--space-8) var(--space-16);background:transparent;border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text);cursor:pointer;transition:all var(--duration-fast) var(--ease-standard);font-size:var(--font-size-base);font-weight:var(--font-weight-medium);font-family:var(--font-family-base)}
-.tab-btn:hover{background:var(--color-secondary-hover)}
-.tab-btn.active{background:var(--color-primary);color:var(--color-btn-primary-text);border-color:var(--color-primary)}
-.current-time{font-size:var(--font-size-base);color:var(--color-text-secondary);font-weight:var(--font-weight-medium);white-space:nowrap}
-.scroller-container{flex:1;overflow-y:auto;padding:var(--space-24) var(--space-32);position:relative}
-.section{margin-bottom:var(--space-32)}
-.section-title{font-size:var(--font-size-xl);font-weight:var(--font-weight-bold);margin-bottom:var(--space-16);color:var(--color-text);padding-bottom:var(--space-12);border-bottom:2px solid var(--color-border)}
-.scroller{display:flex;flex-direction:column;gap:var(--space-16)}
-.load-card{background:var(--color-surface);border:2px solid;border-radius:var(--radius-lg);padding:var(--space-20) var(--space-24);display:flex;justify-content:space-between;align-items:center;min-height:80px;transition:transform var(--duration-fast) var(--ease-standard)}
-.load-card:hover{transform:translateY(-2px)}
-body.mobile-view .load-card{padding:12px 14px;min-height:60px}
-body.mobile-view .load-store{font-size:var(--font-size-xl)}
-body.mobile-view .scheduled-time{font-size:var(--font-size-lg)}
-body.mobile-view .time-remaining{font-size:var(--font-size-sm)}
-body.tv-view .load-card{padding:24px 28px;min-height:90px}
-body.tv-view .load-store{font-size:28px}
-body.tv-view .scheduled-time{font-size:24px}
-body.tv-view .time-remaining{font-size:16px}
-.load-card.green{border-color:var(--color-green);background:var(--color-green-bg)}
-.load-card.yellow{border-color:var(--color-yellow);background:var(--color-yellow-bg)}
-.load-card.red{border-color:var(--color-red);background:var(--color-red-bg)}
-.load-card.completed{border-color:var(--color-border);background:var(--color-surface);opacity:.6}
-.load-card.completed .load-store{text-decoration:line-through}
-.load-info{display:flex;gap:var(--space-32);align-items:center}
-.load-type{font-size:var(--font-size-sm);font-weight:var(--font-weight-bold);text-transform:uppercase;letter-spacing:.5px;color:var(--color-text-secondary)}
-.load-store{font-size:var(--font-size-3xl);font-weight:var(--font-weight-bold);color:var(--color-text)}
-.load-time{display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-4)}
-.scheduled-time{font-size:var(--font-size-2xl);font-weight:var(--font-weight-bold);color:var(--color-text)}
-.time-remaining{font-size:var(--font-size-base);font-weight:var(--font-weight-medium)}
-.load-card.green .time-remaining{color:var(--color-green)}
-.load-card.yellow .time-remaining{color:var(--color-yellow)}
-.load-card.red .time-remaining{color:var(--color-red)}
-.legend{position:fixed;bottom:var(--space-24);right:var(--space-32);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-base);padding:var(--space-16);display:flex;gap:var(--space-20);font-size:var(--font-size-sm);box-shadow:var(--shadow-md)}
-.legend-item{display:flex;align-items:center;gap:var(--space-8)}
-.legend-color{width:20px;height:20px;border-radius:var(--radius-sm)}
-.legend-color.green{background:var(--color-green)}
-.legend-color.yellow{background:var(--color-yellow)}
-.legend-color.red{background:var(--color-red)}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
-.modal.active{display:flex}
-.modal-content{background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-32);max-width:800px;max-height:80vh;overflow-y:auto;width:90%;box-shadow:var(--shadow-md)}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-20)}
-.modal-header h2{margin:0;font-size:var(--font-size-2xl);font-weight:var(--font-weight-bold)}
-.close-btn{background:var(--color-secondary);border:none;border-radius:var(--radius-sm);padding:var(--space-8) var(--space-16);cursor:pointer;font-size:var(--font-size-base);font-weight:var(--font-weight-medium);color:var(--color-text);font-family:var(--font-family-base);transition:background var(--duration-fast) var(--ease-standard)}
-.close-btn:hover{background:var(--color-secondary-hover)}
-.data-editor{font-family:var(--font-family-mono);font-size:var(--font-size-sm);width:100%;min-height:400px;padding:var(--space-16);border:1px solid var(--color-border);border-radius:var(--radius-base);background:var(--color-background);color:var(--color-text);resize:vertical}
-.modal-actions{display:flex;gap:var(--space-12);margin-top:var(--space-20)}
-.save-btn{background:var(--color-primary);color:var(--color-btn-primary-text);border:none;border-radius:var(--radius-sm);padding:var(--space-12) var(--space-20);cursor:pointer;font-size:var(--font-size-base);font-weight:var(--font-weight-medium);font-family:var(--font-family-base);transition:background var(--duration-fast) var(--ease-standard)}
-.save-btn:hover{background:var(--color-primary-hover)}
-.sync-status{font-size:var(--font-size-sm);color:var(--color-text-secondary);padding:var(--space-8) var(--space-12);background:rgba(var(--color-teal-500-rgb),0.1);border-radius:var(--radius-sm);white-space:nowrap}
-@media(max-width:768px){
-  .header-row{flex-direction:column;align-items:flex-start;gap:var(--space-16);padding:var(--space-16)}
-  .controls{flex-direction:column;width:100%;align-items:flex-start}
-  .tab-buttons{width:100%}
-  .scroller-container{padding:var(--space-16)}
-  .load-card{flex-direction:column;align-items:flex-start;gap:var(--space-16)}
-  .load-time{align-items:flex-start}
-  .legend{position:static;margin-top:var(--space-24);flex-direction:column}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-base);
+    background: var(--color-background);
+    color: var(--color-text);
+    overflow-x: hidden;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-20) var(--space-32);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.header-row:last-child {
+    border-bottom: none;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.header h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.header-date {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.controls {
+    display: flex;
+    gap: var(--space-16);
+    align-items: center;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: var(--space-8) var(--space-16);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-standard);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family-base);
+}
+
+.tab-btn:hover {
+    background: var(--color-secondary-hover);
+}
+
+.tab-btn.active {
+    background: var(--color-primary);
+    color: var(--color-btn-primary-text);
+    border-color: var(--color-primary);
+}
+
+.current-time {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+}
+
+.scroller-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-24) var(--space-32);
+    position: relative;
+}
+
+.section {
+    margin-bottom: var(--space-32);
+}
+
+.section-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-16);
+    color: var(--color-text);
+    padding-bottom: var(--space-12);
+    border-bottom: 2px solid var(--color-border);
+}
+
+.scroller {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+}
+
+.load-card {
+    background: var(--color-surface);
+    border: 2px solid;
+    border-radius: var(--radius-lg);
+    padding: var(--space-20) var(--space-24);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 80px;
+    transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.load-card:hover {
+    transform: translateY(-2px);
+}
+
+/* View mode specific card sizing */
+body.mobile-view .load-card {
+  padding: 12px 14px;
+  min-height: 60px;
+}
+
+body.mobile-view .load-store {
+  font-size: var(--font-size-xl);
+}
+
+body.mobile-view .scheduled-time {
+  font-size: var(--font-size-lg);
+}
+
+body.mobile-view .time-remaining {
+  font-size: var(--font-size-sm);
+}
+
+body.tv-view .load-card {
+  padding: 24px 28px;
+  min-height: 90px;
+}
+
+body.tv-view .load-store {
+  font-size: 28px;
+}
+
+body.tv-view .scheduled-time {
+  font-size: 24px;
+}
+
+body.tv-view .time-remaining {
+  font-size: 16px;
+}
+
+.load-card.green {
+    border-color: var(--color-green);
+    background: var(--color-green-bg);
+}
+
+.load-card.yellow {
+    border-color: var(--color-yellow);
+    background: var(--color-yellow-bg);
+}
+
+.load-card.red {
+    border-color: var(--color-red);
+    background: var(--color-red-bg);
+}
+
+.load-card.completed {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    opacity: 0.6;
+}
+
+.load-card.completed .load-store {
+    text-decoration: line-through;
+}
+
+.load-info {
+    display: flex;
+    gap: var(--space-32);
+    align-items: center;
+}
+
+.load-type {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-secondary);
+}
+
+.load-store {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+}
+
+.load-time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-4);
+}
+
+.scheduled-time {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+}
+
+.time-remaining {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+}
+
+.load-card.green .time-remaining {
+    color: var(--color-green);
+}
+
+.load-card.yellow .time-remaining {
+    color: var(--color-yellow);
+}
+
+.load-card.red .time-remaining {
+    color: var(--color-red);
+}
+
+.legend {
+    position: fixed;
+    bottom: var(--space-24);
+    right: var(--space-32);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-base);
+    padding: var(--space-16);
+    display: flex;
+    gap: var(--space-20);
+    font-size: var(--font-size-sm);
+    box-shadow: var(--shadow-md);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-sm);
+}
+
+.legend-color.green {
+    background: var(--color-green);
+}
+
+.legend-color.yellow {
+    background: var(--color-yellow);
+}
+
+.legend-color.red {
+    background: var(--color-red);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-32);
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 90%;
+    box-shadow: var(--shadow-md);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-20);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.close-btn {
+    background: var(--color-secondary);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--space-8) var(--space-16);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    font-family: var(--font-family-base);
+    transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.close-btn:hover {
+    background: var(--color-secondary-hover);
+}
+
+.data-editor {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+    width: 100%;
+    min-height: 400px;
+    padding: var(--space-16);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-base);
+    background: var(--color-background);
+    color: var(--color-text);
+    resize: vertical;
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--space-12);
+    margin-top: var(--space-20);
+}
+
+.save-btn {
+    background: var(--color-primary);
+    color: var(--color-btn-primary-text);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: var(--space-12) var(--space-20);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family-base);
+    transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.save-btn:hover {
+    background: var(--color-primary-hover);
+}
+
+.sync-status {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    padding: var(--space-8) var(--space-12);
+    background: rgba(var(--color-teal-500-rgb), 0.1);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-16);
+        padding: var(--space-16);
+    }
+    
+    .controls {
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+    }
+    
+    .tab-buttons {
+        width: 100%;
+    }
+    
+    .scroller-container {
+        padding: var(--space-16);
+    }
+    
+    .load-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-16);
+    }
+    
+    .load-time {
+        align-items: flex-start;
+    }
+    
+    .legend {
+        position: static;
+        margin-top: var(--space-24);
+        flex-direction: column;
+    }
 }
     </style>
 </head>
@@ -289,7 +655,11 @@ body.tv-view .time-remaining{font-size:16px}
 
     <script>
         let scheduleData = { grocery: [], produce: [], combined: [] };
-        const dayMap = {0:'sun',1:'mon',2:'tue',3:'wed',4:'thu',5:'fri',6:'sat'};
+
+        const dayMap = {
+            0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat'
+        };
+
         let currentFilter = 'urgent';
         let selectedDate = null;
         let currentEditingType = null;
@@ -300,42 +670,35 @@ body.tv-view .time-remaining{font-size:16px}
             let hours = Math.floor(totalMinutes / 60);
             const minutes = totalMinutes % 60;
             const period = hours >= 12 ? 'PM' : 'AM';
-            if (hours === 0) hours = 12;
-            else if (hours > 12) hours -= 12;
-            return `${hours}:${minutes.toString().padStart(2,'0')} ${period}`;
+            if (hours === 0) {
+                hours = 12;
+            } else if (hours > 12) {
+                hours -= 12;
+            }
+            return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
         }
 
-        // UPDATED: handle "073000" (HHMMSS) and plain strings
         function normalizeData(data) {
             const dayKeys = ['mon','tue','wed','thu','fri','sat','sun'];
             return data.map(row => {
                 const cleaned = {};
                 Object.keys(row).forEach(key => {
                     const trimmedKey = key.trim().toLowerCase();
-                    let value = row[key];
+                    const value = row[key];
                     if (value === undefined || value === '') return;
 
                     if (dayKeys.includes(trimmedKey)) {
+                        // Day columns: convert Excel serial numbers to "10:00 PM"
                         if (typeof value === 'number') {
                             const asTime = excelSerialToTimeString(value);
                             if (asTime) cleaned[trimmedKey] = asTime;
                         } else {
-                            const s = String(value).trim();
-                            if (/^\d{6}$/.test(s)) {
-                                const h = parseInt(s.slice(0,2),10);
-                                const m = parseInt(s.slice(2,4),10);
-                                const period = h >= 12 ? 'PM' : 'AM';
-                                let h12 = h % 12;
-                                if (h12 === 0) h12 = 12;
-                                cleaned[trimmedKey] = `${h12}:${m.toString().padStart(2,'0')} ${period}`;
-                            } else {
-                                cleaned[trimmedKey] = s;
-                            }
+                            cleaned[trimmedKey] = value.toString().trim();
                         }
                     } else if (trimmedKey === 'store') {
                         cleaned[trimmedKey] = Number(value);
                     } else {
-                        cleaned[trimmedKey] = String(value).trim();
+                        cleaned[trimmedKey] = value.toString().trim();
                     }
                 });
                 return cleaned;
@@ -344,24 +707,32 @@ body.tv-view .time-remaining{font-size:16px}
 
         function updateSyncStatus(status) {
             const syncEl = document.getElementById('syncStatus');
-            if (syncEl) syncEl.textContent = status;
+            if (syncEl) {
+                syncEl.textContent = status;
+            }
         }
 
         async function loadExcelFromGitHub() {
             try {
                 const groceryUrl = 'https://raw.githubusercontent.com/Manav058/Shipping_time_tracker/main/Gorcery_Loads.xlsx';
                 const produceUrl = 'https://raw.githubusercontent.com/Manav058/Shipping_time_tracker/main/Produce_Loads.xlsx';
+                
                 const groceryRes = await fetch(groceryUrl);
                 const produceRes = await fetch(produceUrl);
+                
                 if (groceryRes.ok && produceRes.ok) {
                     const groceryData = await groceryRes.arrayBuffer();
                     const produceData = await produceRes.arrayBuffer();
-                    const groceryWorkbook = XLSX.read(groceryData,{type:'array'});
-                    const produceWorkbook = XLSX.read(produceData,{type:'array'});
+                    
+                    const groceryWorkbook = XLSX.read(groceryData, { type: 'array' });
+                    const produceWorkbook = XLSX.read(produceData, { type: 'array' });
+                    
                     const grocerySheet = groceryWorkbook.Sheets[groceryWorkbook.SheetNames[0]];
                     const produceSheet = produceWorkbook.Sheets[produceWorkbook.SheetNames[0]];
+                    
                     scheduleData.grocery = normalizeData(XLSX.utils.sheet_to_json(grocerySheet));
-                    scheduleData.produce = normalizeData(XLSX.utils.sheet_to_json(produceSheet)); [file:133][file:134]
+                    scheduleData.produce = normalizeData(XLSX.utils.sheet_to_json(produceSheet));
+                    
                     updateSyncStatus('✅ Synced');
                     console.log('✅ Excel files loaded from GitHub');
                     renderScroller();
@@ -380,39 +751,22 @@ body.tv-view .time-remaining{font-size:16px}
             loadExcelFromGitHub();
         }
 
-        // UPDATED: handle "700", "700 PM", "7:00 PM"
         function parseTime(timeStr) {
-            if (!timeStr) return { hours: 0, minutes: 0 };
-            let s = String(timeStr).trim().toUpperCase();
-
-            if (/^\d{3,4}$/.test(s)) {
-                const num = parseInt(s,10);
-                const minutes = num % 100;
-                let hours = Math.floor(num/100);
-                if (hours === 12) { /* 12 PM */ }
-                else if (hours === 0) { hours = 12; }
-                else { hours += 12; }
-                return { hours, minutes };
-            }
-
-            const noColon = s.match(/^(\d{3,4})\s*(AM|PM)$/);
-            if (noColon) {
-                const num = parseInt(noColon[1],10);
-                const minutes = num % 100;
-                let hours = Math.floor(num/100);
-                const period = noColon[2];
-                if (period === 'PM' && hours !== 12) hours += 12;
-                if (period === 'AM' && hours === 12) hours = 0;
-                return { hours, minutes };
-            }
-
-            const match = s.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/);
+            if (!timeStr || typeof timeStr !== 'string') return { hours: 0, minutes: 0 };
+            
+            const timeStr_clean = timeStr.trim().toUpperCase();
+            const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM)?/;
+            const match = timeStr_clean.match(timeRegex);
+            
             if (!match) return { hours: 0, minutes: 0 };
-            let hours = parseInt(match[1],10);
-            const minutes = parseInt(match[2],10);
+            
+            let hours = parseInt(match[1]);
+            const minutes = parseInt(match[2]);
             const period = match[3];
+            
             if (period === 'PM' && hours !== 12) hours += 12;
             if (period === 'AM' && hours === 12) hours = 0;
+            
             return { hours, minutes };
         }
 
@@ -421,7 +775,9 @@ body.tv-view .time-remaining{font-size:16px}
             const scheduled = new Date(now);
             const { hours, minutes } = parseTime(scheduledTime);
             scheduled.setHours(hours, minutes, 0, 0);
+
             const diffMinutes = (scheduled - now) / (1000 * 60);
+
             if (diffMinutes > 120) return 'green';
             if (diffMinutes >= 20 && diffMinutes <= 45) return 'yellow';
             if (diffMinutes < 20 && diffMinutes >= 0) return 'red';
@@ -433,16 +789,24 @@ body.tv-view .time-remaining{font-size:16px}
             const scheduled = new Date(now);
             const { hours, minutes } = parseTime(scheduledTime);
             scheduled.setHours(hours, minutes, 0, 0);
+
             const diffMinutes = Math.round((scheduled - now) / (1000 * 60));
+            
             if (diffMinutes < 0) {
                 const absDiff = Math.abs(diffMinutes);
                 const hrs = Math.floor(absDiff / 60);
                 const mins = absDiff % 60;
                 return hrs > 0 ? `${hrs}h ${mins}m ago` : `${mins}m ago`;
             }
+
             const hrs = Math.floor(diffMinutes / 60);
             const mins = diffMinutes % 60;
-            return hrs > 0 ? `${hrs}h ${mins}m remaining` : `${mins}m remaining`;
+            
+            if (hrs > 0) {
+                return `${hrs}h ${mins}m remaining`;
+            } else {
+                return `${mins}m remaining`;
+            }
         }
 
         function getMinutesUntilLoad(timeStr) {
@@ -457,35 +821,48 @@ body.tv-view .time-remaining{font-size:16px}
             let now;
             if (selectedDate) {
                 const parts = selectedDate.split('-');
-                now = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+                now = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
             } else {
                 now = new Date();
             }
             const today = dayMap[now.getDay()];
             const loads = [];
+
             Object.keys(scheduleData).forEach(type => {
-                if (currentFilter!=='urgent' && currentFilter!=='completed' && currentFilter!=='all' && currentFilter!==type) return;
+                if (currentFilter !== 'urgent' && currentFilter !== 'completed' && currentFilter !== 'all' && currentFilter !== type) return;
+
                 scheduleData[type].forEach(load => {
                     if (load[today]) {
-                        const typeName = type.charAt(0).toUpperCase()+type.slice(1);
+                        const typeName = type.charAt(0).toUpperCase() + type.slice(1);
                         loads.push({
-                            type:typeName,
-                            store:load.store,
-                            store_name:load.store_name || '',
-                            time:load[today],
-                            timeStatus:getTimeStatus(load[today]),
-                            status:'pending'
+                            type: typeName,
+                            store: load.store,
+                            store_name: load.store_name || '',
+                            time: load[today],
+                            timeStatus: getTimeStatus(load[today]),
+                            status: 'pending'
                         });
                     }
                 });
             });
+
             return loads;
         }
 
         function renderLoadCard(load) {
             const minutesUntil = getMinutesUntilLoad(load.time);
-            const cardClass = minutesUntil < 0 ? 'completed' : load.timeStatus;
-            const storeLabel = load.store_name ? `${load.store} - ${load.store_name}` : `Store ${load.store}`;
+            let cardClass;
+            
+            if (minutesUntil < 0) {
+                cardClass = 'completed';
+            } else {
+                cardClass = load.timeStatus;
+            }
+            
+            const storeLabel = load.store_name
+                ? `${load.store} - ${load.store_name}`
+                : `Store ${load.store}`;
+
             return `
                 <div class="load-card ${cardClass}">
                     <div class="load-info">
@@ -505,41 +882,72 @@ body.tv-view .time-remaining{font-size:16px}
             let now;
             if (selectedDate) {
                 const parts = selectedDate.split('-');
-                now = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+                now = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
             } else {
                 now = new Date();
             }
-            const dateStr = now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+            const dateStr = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric',
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
             if (currentFilter === 'completed') {
                 const completedLoads = allLoads
-                    .filter(load => getMinutesUntilLoad(load.time) < 0)
-                    .sort((a,b) => {
-                        const ta=parseTime(a.time), tb=parseTime(b.time);
-                        return (ta.hours*60+ta.minutes)-(tb.hours*60+tb.minutes);
+                    .filter(load => {
+                        const minutesUntil = getMinutesUntilLoad(load.time);
+                        return minutesUntil < 0;
+                    })
+                    .sort((a, b) => {
+                        const timeA = parseTime(a.time);
+                        const timeB = parseTime(b.time);
+                        return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
                     });
+
                 document.getElementById('sectionTitle').textContent = `Completed Loads for ${selectedDate ? dateStr : 'Today'} (${completedLoads.length})`;
-                document.getElementById('urgentScroller').innerHTML =
-                    completedLoads.length ? completedLoads.map(renderLoadCard).join('') :
-                    '<p style="color: var(--color-text-secondary); padding: 20px;">No completed loads for today</p>';
+                document.getElementById('urgentScroller').innerHTML = 
+                    completedLoads.length > 0 
+                        ? completedLoads.map(renderLoadCard).join('') 
+                        : '<p style="color: var(--color-text-secondary); padding: 20px;">No completed loads for today</p>';
             } else {
                 const pendingLoads = allLoads
-                    .filter(load => getMinutesUntilLoad(load.time) >= 0)
-                    .sort((a,b) => {
-                        const ta=parseTime(a.time), tb=parseTime(b.time);
-                        return (ta.hours*60+ta.minutes)-(tb.hours*60+tb.minutes);
+                    .filter(load => {
+                        const minutesUntil = getMinutesUntilLoad(load.time);
+                        return minutesUntil >= 0;
+                    })
+                    .sort((a, b) => {
+                        const timeA = parseTime(a.time);
+                        const timeB = parseTime(b.time);
+                        return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
                     });
+
                 document.getElementById('sectionTitle').textContent = `Pending Loads for ${selectedDate ? dateStr : 'Today'} (${pendingLoads.length})`;
-                document.getElementById('urgentScroller').innerHTML =
-                    pendingLoads.length ? pendingLoads.map(renderLoadCard).join('') :
-                    `<p style="color: var(--color-text-secondary); padding: 20px;">No pending loads for ${selectedDate ? dateStr : 'today'}</p>`;
+                document.getElementById('urgentScroller').innerHTML = 
+                    pendingLoads.length > 0 
+                        ? pendingLoads.map(renderLoadCard).join('') 
+                        : `<p style="color: var(--color-text-secondary); padding: 20px;">No pending loads for ${selectedDate ? dateStr : 'today'}</p>`;
             }
         }
 
         function updateCurrentTime() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});
-            const dateStr = now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
-            const fullDateStr = now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+            const timeStr = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            const dateStr = now.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            const fullDateStr = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric',
+                month: 'long', 
+                day: 'numeric' 
+            });
             document.getElementById('currentTime').textContent = `${dateStr} • ${timeStr}`;
             document.getElementById('headerDate').textContent = fullDateStr;
         }
@@ -558,39 +966,45 @@ body.tv-view .time-remaining{font-size:16px}
             const modal = document.getElementById('dataModal');
             const editor = document.getElementById('dataEditor');
             const title = document.getElementById('modalTitle');
-            title.textContent = `Edit ${type.charAt(0).toUpperCase()+type.slice(1)} Data`;
+            
+            title.textContent = `Edit ${type.charAt(0).toUpperCase() + type.slice(1)} Data`;
             editor.value = JSON.stringify(scheduleData[type], null, 2);
             modal.classList.add('active');
         }
 
         function closeDataEditor() {
-            document.getElementById('dataModal').classList.remove('active');
+            const modal = document.getElementById('dataModal');
+            modal.classList.remove('active');
             currentEditingType = null;
         }
 
         async function saveData() {
             const editor = document.getElementById('dataEditor');
+
             try {
                 const newData = JSON.parse(editor.value);
                 scheduleData[currentEditingType] = newData;
                 renderScroller();
-                const res = await fetch('/api/update-schedule',{
-                    method:'POST',
-                    headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({ scheduleData })
+
+                const res = await fetch('/api/update-schedule', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ scheduleData })
                 });
+
                 if (!res.ok) {
                     let msg = res.statusText;
                     try {
                         const err = await res.json();
                         if (err && err.details) msg = err.details;
-                    } catch(_){}
+                    } catch (_) {}
                     alert('Saved locally, but GitHub sync failed: ' + msg);
                     return;
                 }
+
                 alert('Data saved and synced to GitHub successfully!');
                 closeDataEditor();
-            } catch(e) {
+            } catch (e) {
                 alert('Invalid JSON format. Please check your data and try again.\n\nError: ' + e.message);
             }
         }
@@ -599,6 +1013,7 @@ body.tv-view .time-remaining{font-size:16px}
             const body = document.body;
             const mobileBtn = document.getElementById('mobileViewBtn');
             const tvBtn = document.getElementById('tvViewBtn');
+
             if (mode === 'mobile') {
                 body.classList.add('mobile-view');
                 body.classList.remove('tv-view');
@@ -612,11 +1027,12 @@ body.tv-view .time-remaining{font-size:16px}
             }
         }
 
+        // Initialize
         loadExcelFromGitHub();
         updateCurrentTime();
         setInterval(updateCurrentTime, 1000);
         setInterval(renderScroller, 60000);
-        setInterval(loadExcelFromGitHub, 300000);
+        setInterval(loadExcelFromGitHub, 300000); // Auto-refresh every 5 minutes
     </script>
 </body>
 </html>
