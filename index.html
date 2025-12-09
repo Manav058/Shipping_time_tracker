@@ -849,10 +849,10 @@ body.tv-view .time-remaining {
             return loads;
         }
         // Show tomorrow's 12:00–1:30 AM loads starting at 10 PM tonight
-        function getEarlyNextDayLoads() {
+                function getEarlyNextDayLoads() {
             const now = new Date();
         
-            // Only add these after 10 PM
+            // Only add these after 7 PM
             if (now.getHours() < 19) return [];
         
             const tomorrowIndex = (now.getDay() + 1) % 7;
@@ -869,7 +869,6 @@ body.tv-view .time-remaining {
                     const { hours, minutes } = parseTime(timeStr);
                     const totalMinutes = hours * 60 + minutes;
         
-                    // Only include times between 00:00 and 01:30 (0–90 minutes)
                     if (totalMinutes >= 0 && totalMinutes <= 90) {
                         const typeName = type.charAt(0).toUpperCase() + type.slice(1);
                         loads.push({
@@ -887,6 +886,7 @@ body.tv-view .time-remaining {
         
             return loads;
         }
+
 
 
         function renderLoadCard(load) {
