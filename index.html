@@ -688,7 +688,6 @@ body.tv-view .time-remaining {
                     if (value === undefined || value === '') return;
 
                     if (dayKeys.includes(trimmedKey)) {
-                        // Day columns: convert Excel serial numbers to "10:00 PM"
                         if (typeof value === 'number') {
                             const asTime = excelSerialToTimeString(value);
                             if (asTime) cleaned[trimmedKey] = asTime;
@@ -731,7 +730,7 @@ body.tv-view .time-remaining {
                     const produceSheet = produceWorkbook.Sheets[produceWorkbook.SheetNames[0]];
                     
                     scheduleData.grocery = normalizeData(XLSX.utils.sheet_to_json(grocerySheet));
-                    scheduleData.produce = normalizeData(XLSX.utils.sheet_to_json(produceSheet));
+                    scheduleData.produce = normalizeData(XLSX.utils.sheet_to_json(produceSheet)); [file:133][file:134]
                     
                     updateSyncStatus('✅ Synced');
                     console.log('✅ Excel files loaded from GitHub');
@@ -751,22 +750,29 @@ body.tv-view .time-remaining {
             loadExcelFromGitHub();
         }
 
+        // UPDATED: parseTime also understands 6-digit HHMMSS like "000000"
         function parseTime(timeStr) {
-            if (!timeStr || typeof timeStr !== 'string') return { hours: 0, minutes: 0 };
-            
-            const timeStr_clean = timeStr.trim().toUpperCase();
+            if (!timeStr) return { hours: 0, minutes: 0 };
+            let s = String(timeStr).trim().toUpperCase();
+
+            // 6-digit HHMMSS from Produce sheet, e.g. "000000", "003000", "010000"
+            if (/^\d{6}$/.test(s)) {
+                const h = parseInt(s.slice(0, 2), 10);
+                const m = parseInt(s.slice(2, 4), 10);
+                return { hours: h, minutes: m };
+            }
+
             const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM)?/;
-            const match = timeStr_clean.match(timeRegex);
-            
+            const match = s.match(timeRegex);
             if (!match) return { hours: 0, minutes: 0 };
-            
-            let hours = parseInt(match[1]);
-            const minutes = parseInt(match[2]);
+
+            let hours = parseInt(match[1], 10);
+            const minutes = parseInt(match[2], 10);
             const period = match[3];
-            
+
             if (period === 'PM' && hours !== 12) hours += 12;
             if (period === 'AM' && hours === 12) hours = 0;
-            
+
             return { hours, minutes };
         }
 
@@ -848,27 +854,28 @@ body.tv-view .time-remaining {
 
             return loads;
         }
-        // Show tomorrow's 12:00–1:30 AM loads starting at 10 PM tonight
-                function getEarlyNextDayLoads() {
+
+        // NEW: tomorrow's 00:00–01:30 loads, shown after 7 PM
+        function getEarlyNextDayLoads() {
             const now = new Date();
-        
+
             // Only add these after 7 PM
             if (now.getHours() < 19) return [];
-        
+
             const tomorrowIndex = (now.getDay() + 1) % 7;
             const tomorrowKey = dayMap[tomorrowIndex];
             const loads = [];
-        
+
             Object.keys(scheduleData).forEach(type => {
                 if (currentFilter !== 'urgent' && currentFilter !== 'completed' && currentFilter !== 'all' && currentFilter !== type) return;
-        
+
                 scheduleData[type].forEach(load => {
                     const timeStr = load[tomorrowKey];
                     if (!timeStr) return;
-        
+
                     const { hours, minutes } = parseTime(timeStr);
                     const totalMinutes = hours * 60 + minutes;
-        
+
                     if (totalMinutes >= 0 && totalMinutes <= 90) {
                         const typeName = type.charAt(0).toUpperCase() + type.slice(1);
                         loads.push({
@@ -883,11 +890,9 @@ body.tv-view .time-remaining {
                     }
                 });
             });
-        
+
             return loads;
         }
-
-
 
         function renderLoadCard(load) {
             const minutesUntil = getMinutesUntilLoad(load.time);
@@ -921,6 +926,7 @@ body.tv-view .time-remaining {
             const todayLoads = getLoadsForToday();
             const earlyNextLoads = getEarlyNextDayLoads();
             const allLoads = [...todayLoads, ...earlyNextLoads];
+
             let now;
             if (selectedDate) {
                 const parts = selectedDate.split('-');
