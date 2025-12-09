@@ -759,8 +759,8 @@
             
             if (!match) return { hours: 0, minutes: 0 };
             
-            let hours = parseInt(match[1]);
-            const minutes = parseInt(match[2]);
+            let hours = parseInt(match[1], 10);
+            const minutes = parseInt(match[2], 10);
             const period = match[3];
             
             if (period === 'PM' && hours !== 12) hours += 12;
@@ -789,10 +789,15 @@
             return 'green';
         }
 
-        function formatTimeRemaining(scheduledTime) {
+        function formatTimeRemaining(scheduledTime, dateLabel = 'today') {
             const now = new Date();
             const scheduled = new Date(now);
             const { hours, minutes } = parseTime(scheduledTime);
+
+            if (dateLabel === 'tomorrow') {
+                scheduled.setDate(scheduled.getDate() + 1);
+            }
+
             scheduled.setHours(hours, minutes, 0, 0);
 
             const diffMinutes = Math.round((scheduled - now) / (1000 * 60));
@@ -814,10 +819,16 @@
             }
         }
 
-        function getMinutesUntilLoad(timeStr) {
+        // UPDATED: respect dateLabel (today vs tomorrow)
+        function getMinutesUntilLoad(timeStr, dateLabel = 'today') {
             const now = new Date();
             const scheduled = new Date(now);
             const { hours, minutes } = parseTime(timeStr);
+
+            if (dateLabel === 'tomorrow') {
+                scheduled.setDate(scheduled.getDate() + 1);
+            }
+
             scheduled.setHours(hours, minutes, 0, 0);
             return Math.round((scheduled - now) / (1000 * 60));
         }
@@ -827,22 +838,21 @@
             const loads = [];
             const inNightShift = isInNightShiftWindow();
 
-            // Get today's loads with filter applied
+            // today's loads with tab filter
             const today = dayMap[now.getDay()];
             const todayLoads = collectLoadsWithFilter(today, 'today');
             loads.push(...todayLoads);
 
-            // If in night shift window (7 PM - 1:30 AM), show ALL next day's early morning loads (no filter)
+            // if in night shift, add tomorrow 12:00–1:30 AM loads (no filter)
             if (inNightShift) {
                 const tomorrow = new Date(now);
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 const tomorrowDay = dayMap[tomorrow.getDay()];
                 
-                // Get ALL tomorrow's loads between 12:00 AM - 1:30 AM (no type filtering)
                 const earlyMorningLoads = collectLoadsNoFilter(tomorrowDay, 'tomorrow').filter(load => {
                     const { hours, minutes } = parseTime(load.time);
                     const totalMinutes = hours * 60 + minutes;
-                    return totalMinutes >= 0 && totalMinutes <= 90;
+                    return totalMinutes >= 0 && totalMinutes <= 90; // 0–1:30
                 });
                 loads.push(...earlyMorningLoads);
             }
@@ -899,7 +909,7 @@
             
             if (currentFilter === 'completed') {
                 return allLoads.filter(load => {
-                    const minutesUntil = getMinutesUntilLoad(load.time);
+                    const minutesUntil = getMinutesUntilLoad(load.time, load.dateLabel);
                     return minutesUntil < 0;
                 }).sort((a, b) => {
                     const timeA = parseTime(a.time);
@@ -908,7 +918,7 @@
                 });
             } else {
                 return allLoads.filter(load => {
-                    const minutesUntil = getMinutesUntilLoad(load.time);
+                    const minutesUntil = getMinutesUntilLoad(load.time, load.dateLabel);
                     return minutesUntil >= 0;
                 }).sort((a, b) => {
                     const timeA = parseTime(a.time);
@@ -919,7 +929,7 @@
         }
 
         function renderLoadCard(load) {
-            const minutesUntil = getMinutesUntilLoad(load.time);
+            const minutesUntil = getMinutesUntilLoad(load.time, load.dateLabel);
             let cardClass;
             
             if (minutesUntil < 0) {
@@ -942,7 +952,7 @@
                     </div>
                     <div class="load-time">
                         <div class="scheduled-time">${load.time}</div>
-                        <div class="time-remaining">${formatTimeRemaining(load.time)}</div>
+                        <div class="time-remaining">${formatTimeRemaining(load.time, load.dateLabel)}</div>
                     </div>
                 </div>
             `;
@@ -950,13 +960,6 @@
 
         function renderScroller() {
             const filteredLoads = filterLoadsByStatus();
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric',
-                month: 'long', 
-                day: 'numeric' 
-            });
             
             if (currentFilter === 'completed') {
                 document.getElementById('sectionTitle').textContent = `Completed Loads (${filteredLoads.length})`;
