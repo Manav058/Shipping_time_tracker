@@ -853,7 +853,7 @@ body.tv-view .time-remaining {
             const now = new Date();
         
             // Only add these after 10 PM
-            if (now.getHours() < 22) return [];
+            if (now.getHours() < 19) return [];
         
             const tomorrowIndex = (now.getDay() + 1) % 7;
             const tomorrowKey = dayMap[tomorrowIndex];
