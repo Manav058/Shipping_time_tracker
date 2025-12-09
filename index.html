@@ -819,7 +819,6 @@
             }
         }
 
-        // UPDATED: respect dateLabel (today vs tomorrow)
         function getMinutesUntilLoad(timeStr, dateLabel = 'today') {
             const now = new Date();
             const scheduled = new Date(now);
@@ -838,12 +837,10 @@
             const loads = [];
             const inNightShift = isInNightShiftWindow();
 
-            // today's loads with tab filter
             const today = dayMap[now.getDay()];
             const todayLoads = collectLoadsWithFilter(today, 'today');
             loads.push(...todayLoads);
 
-            // if in night shift, add tomorrow 12:00–1:30 AM loads (no filter)
             if (inNightShift) {
                 const tomorrow = new Date(now);
                 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -852,7 +849,7 @@
                 const earlyMorningLoads = collectLoadsNoFilter(tomorrowDay, 'tomorrow').filter(load => {
                     const { hours, minutes } = parseTime(load.time);
                     const totalMinutes = hours * 60 + minutes;
-                    return totalMinutes >= 0 && totalMinutes <= 90; // 0–1:30
+                    return totalMinutes >= 0 && totalMinutes <= 90;
                 });
                 loads.push(...earlyMorningLoads);
             }
@@ -904,28 +901,36 @@
             return loads;
         }
 
+        // UPDATED: sort so today's pending loads, then tomorrow AM loads at end
         function filterLoadsByStatus() {
             const allLoads = getLoadsForToday();
-            
-            if (currentFilter === 'completed') {
-                return allLoads.filter(load => {
-                    const minutesUntil = getMinutesUntilLoad(load.time, load.dateLabel);
-                    return minutesUntil < 0;
-                }).sort((a, b) => {
-                    const timeA = parseTime(a.time);
-                    const timeB = parseTime(b.time);
-                    return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
-                });
-            } else {
-                return allLoads.filter(load => {
-                    const minutesUntil = getMinutesUntilLoad(load.time, load.dateLabel);
-                    return minutesUntil >= 0;
-                }).sort((a, b) => {
-                    const timeA = parseTime(a.time);
-                    const timeB = parseTime(b.time);
-                    return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
-                });
+
+            function timeToMinutes(t) {
+                const { hours, minutes } = parseTime(t);
+                return hours * 60 + minutes;
             }
+
+            if (currentFilter === 'completed') {
+                return allLoads
+                    .filter(load => {
+                        const minutesUntil = getMinutesUntilLoad(load.time, load.dateLabel);
+                        return minutesUntil < 0;
+                    })
+                    .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+            }
+
+            const pending = allLoads.filter(load => {
+                const minutesUntil = getMinutesUntilLoad(load.time, load.dateLabel);
+                return minutesUntil >= 0;
+            });
+
+            const todayLoads = pending.filter(l => l.dateLabel === 'today');
+            const tomorrowLoads = pending.filter(l => l.dateLabel === 'tomorrow');
+
+            todayLoads.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+            tomorrowLoads.sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+
+            return [...todayLoads, ...tomorrowLoads];
         }
 
         function renderLoadCard(load) {
