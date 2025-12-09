@@ -29,6 +29,7 @@
   --color-red-500: rgba(192, 21, 47, 1);
   --color-orange-400: rgba(230, 129, 97, 1);
   --color-orange-500: rgba(168, 75, 47, 1);
+
   --color-brown-600-rgb: 94, 82, 64;
   --color-teal-500-rgb: 33, 128, 141;
   --color-slate-900-rgb: 19, 52, 59;
@@ -40,6 +41,7 @@
   --color-gray-400-rgb: 119, 124, 124;
   --color-gray-300-rgb: 167, 169, 169;
   --color-gray-200-rgb: 245, 245, 245;
+
   --color-bg-1: rgba(59, 130, 246, 0.08);
   --color-bg-2: rgba(245, 158, 11, 0.08);
   --color-bg-3: rgba(34, 197, 94, 0.08);
@@ -48,6 +50,7 @@
   --color-bg-6: rgba(249, 115, 22, 0.08);
   --color-bg-7: rgba(236, 72, 153, 0.08);
   --color-bg-8: rgba(6, 182, 212, 0.08);
+
   --color-background: var(--color-cream-50);
   --color-surface: var(--color-cream-100);
   --color-text: var(--color-slate-900);
@@ -68,14 +71,16 @@
   --color-info: var(--color-slate-500);
   --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
   --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
   --color-green: rgba(34, 197, 94, 1);
   --color-yellow: rgba(234, 179, 8, 1);
   --color-red: rgba(239, 68, 68, 1);
   --color-green-bg: rgba(34, 197, 94, 0.1);
   --color-yellow-bg: rgba(234, 179, 8, 0.1);
   --color-red-bg: rgba(239, 68, 68, 0.1);
-  --font-family-base: "FKGroteskNeue","Geist","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  --font-family-mono: "Berkeley Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-size-xs: 11px;
   --font-size-sm: 12px;
   --font-size-base: 14px;
@@ -90,6 +95,7 @@
   --font-weight-bold: 600;
   --line-height-tight: 1.2;
   --line-height-normal: 1.5;
+
   --space-4: 4px;
   --space-8: 8px;
   --space-12: 12px;
@@ -97,38 +103,43 @@
   --space-20: 20px;
   --space-24: 24px;
   --space-32: 32px;
+
   --radius-sm: 6px;
   --radius-base: 8px;
   --radius-md: 10px;
   --radius-lg: 12px;
   --radius-full: 9999px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04),0 1px 2px rgba(0,0,0,0.02);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.04),0 2px 4px -1px rgba(0,0,0,0.02);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+
   --duration-fast: 150ms;
   --duration-normal: 250ms;
-  --ease-standard: cubic-bezier(0.16,1,0.3,1);
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --color-background:var(--color-charcoal-700);
-    --color-surface:var(--color-charcoal-800);
-    --color-text:var(--color-gray-200);
-    --color-text-secondary:rgba(var(--color-gray-300-rgb),0.7);
-    --color-primary:var(--color-teal-300);
-    --color-primary-hover:var(--color-teal-400);
-    --color-primary-active:var(--color-teal-800);
-    --color-secondary:rgba(var(--color-gray-400-rgb),0.15);
-    --color-secondary-hover:rgba(var(--color-gray-400-rgb),0.25);
-    --color-secondary-active:rgba(var(--color-gray-400-rgb),0.3);
-    --color-border:rgba(var(--color-gray-400-rgb),0.3);
-    --color-error:var(--color-red-400);
-    --color-success:var(--color-teal-300);
-    --color-warning:var(--color-orange-400);
-    --color-btn-primary-text:var(--color-slate-900);
-    --color-card-border:rgba(var(--color-gray-400-rgb),0.2);
-    --color-card-border-inner:rgba(var(--color-gray-400-rgb),0.15);
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
   }
 }
+
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:var(--font-family-base);background:var(--color-background);color:var(--color-text);overflow-x:hidden}
 .container{min-height:100vh;display:flex;flex-direction:column}
@@ -190,7 +201,7 @@ body.tv-view .time-remaining{font-size:16px}
 .save-btn{background:var(--color-primary);color:var(--color-btn-primary-text);border:none;border-radius:var(--radius-sm);padding:var(--space-12) var(--space-20);cursor:pointer;font-size:var(--font-size-base);font-weight:var(--font-weight-medium);font-family:var(--font-family-base);transition:background var(--duration-fast) var(--ease-standard)}
 .save-btn:hover{background:var(--color-primary-hover)}
 .sync-status{font-size:var(--font-size-sm);color:var(--color-text-secondary);padding:var(--space-8) var(--space-12);background:rgba(var(--color-teal-500-rgb),0.1);border-radius:var(--radius-sm);white-space:nowrap}
-@media(max-width:768px){
+@media (max-width: 768px){
   .header-row{flex-direction:column;align-items:flex-start;gap:var(--space-16);padding:var(--space-16)}
   .controls{flex-direction:column;width:100%;align-items:flex-start}
   .tab-buttons{width:100%}
@@ -294,6 +305,7 @@ body.tv-view .time-remaining{font-size:16px}
             return `${hours}:${minutes.toString().padStart(2,'0')} ${period}`;
         }
 
+        // normalize times from both Excel files
         function normalizeData(data) {
             const dayKeys = ['mon','tue','wed','thu','fri','sat','sun'];
             return data.map(row => {
@@ -309,6 +321,8 @@ body.tv-view .time-remaining{font-size:16px}
                             if (asTime) cleaned[trimmedKey] = asTime;
                         } else {
                             const s = String(value).trim();
+
+                            // Produce file "073000", "120000"
                             if (/^\d{6}$/.test(s)) {
                                 const h = parseInt(s.slice(0,2),10);
                                 const m = parseInt(s.slice(2,4),10);
@@ -368,14 +382,15 @@ body.tv-view .time-remaining{font-size:16px}
             loadExcelFromGitHub();
         }
 
+        // flexible parser: "700", "700 PM", "7:00 PM"
         function parseTime(timeStr) {
             if (!timeStr) return { hours: 0, minutes: 0 };
             let s = String(timeStr).trim().toUpperCase();
 
             if (/^\d{3,4}$/.test(s)) {
-                const num = parseInt(s,10);
+                const num = parseInt(s, 10);
                 const minutes = num % 100;
-                let hours = Math.floor(num/100);
+                let hours = Math.floor(num / 100);
                 if (hours === 12) { /* 12 PM */ }
                 else if (hours === 0) { hours = 12; }
                 else { hours += 12; }
@@ -384,9 +399,9 @@ body.tv-view .time-remaining{font-size:16px}
 
             const noColon = s.match(/^(\d{3,4})\s*(AM|PM)$/);
             if (noColon) {
-                const num = parseInt(noColon[1],10);
+                const num = parseInt(noColon[1], 10);
                 const minutes = num % 100;
-                let hours = Math.floor(num/100);
+                let hours = Math.floor(num / 100);
                 const period = noColon[2];
                 if (period === 'PM' && hours !== 12) hours += 12;
                 if (period === 'AM' && hours === 12) hours = 0;
@@ -395,8 +410,9 @@ body.tv-view .time-remaining{font-size:16px}
 
             const match = s.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/);
             if (!match) return { hours: 0, minutes: 0 };
-            let hours = parseInt(match[1],10);
-            const minutes = parseInt(match[2],10);
+
+            let hours = parseInt(match[1], 10);
+            const minutes = parseInt(match[2], 10);
             const period = match[3];
             if (period === 'PM' && hours !== 12) hours += 12;
             if (period === 'AM' && hours === 12) hours = 0;
@@ -472,7 +488,7 @@ body.tv-view .time-remaining{font-size:16px}
             return loads;
         }
 
-        // NEW: loads for next day between 00:00–01:30, shown after 10 PM
+        // next-day 00:00–01:30 loads shown after 22:00
         function getEarlyNextDayLoads() {
             const now = new Date();
             if (now.getHours() < 22) return [];
@@ -539,19 +555,19 @@ body.tv-view .time-remaining{font-size:16px}
             } else {
                 now = new Date();
             }
-            const dateStr = now.toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+            const dateStr = now.toLocaleDateString('en-US',{
+                weekday:'long',
+                year:'numeric',
+                month:'long',
+                day:'numeric'
             });
 
             if (currentFilter === 'completed') {
                 const completedLoads = allLoads
                     .filter(load => getMinutesUntilLoad(load.time) < 0)
-                    .sort((a, b) => {
+                    .sort((a,b) => {
                         const ta = parseTime(a.time), tb = parseTime(b.time);
-                        return (ta.hours * 60 + ta.minutes) - (tb.hours * 60 + tb.minutes);
+                        return (ta.hours*60+ta.minutes) - (tb.hours*60+tb.minutes);
                     });
 
                 document.getElementById('sectionTitle').textContent =
@@ -564,9 +580,9 @@ body.tv-view .time-remaining{font-size:16px}
             } else {
                 const pendingLoads = allLoads
                     .filter(load => getMinutesUntilLoad(load.time) >= 0)
-                    .sort((a, b) => {
+                    .sort((a,b) => {
                         const ta = parseTime(a.time), tb = parseTime(b.time);
-                        return (ta.hours * 60 + ta.minutes) - (tb.hours * 60 + tb.minutes);
+                        return (ta.hours*60+ta.minutes) - (tb.hours*60+tb.minutes);
                     });
 
                 document.getElementById('sectionTitle').textContent =
