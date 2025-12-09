@@ -3,579 +3,579 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shipping Load Live Scroller v4</title>
+    <title>Shipping Load Live Scroller v5</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
-  /* Primitive Color Tokens */
-  --color-white: rgba(255, 255, 255, 1);
-  --color-black: rgba(0, 0, 0, 1);
-  --color-cream-50: rgba(252, 252, 249, 1);
-  --color-cream-100: rgba(255, 255, 253, 1);
-  --color-gray-200: rgba(245, 245, 245, 1);
-  --color-gray-300: rgba(167, 169, 169, 1);
-  --color-gray-400: rgba(119, 124, 124, 1);
-  --color-slate-500: rgba(98, 108, 113, 1);
-  --color-brown-600: rgba(94, 82, 64, 1);
-  --color-charcoal-700: rgba(31, 33, 33, 1);
-  --color-charcoal-800: rgba(38, 40, 40, 1);
-  --color-slate-900: rgba(19, 52, 59, 1);
-  --color-teal-300: rgba(50, 184, 198, 1);
-  --color-teal-400: rgba(45, 166, 178, 1);
-  --color-teal-500: rgba(33, 128, 141, 1);
-  --color-teal-600: rgba(29, 116, 128, 1);
-  --color-teal-700: rgba(26, 104, 115, 1);
-  --color-teal-800: rgba(41, 150, 161, 1);
-  --color-red-400: rgba(255, 84, 89, 1);
-  --color-red-500: rgba(192, 21, 47, 1);
-  --color-orange-400: rgba(230, 129, 97, 1);
-  --color-orange-500: rgba(168, 75, 47, 1);
-
-  /* RGB versions for opacity control */
-  --color-brown-600-rgb: 94, 82, 64;
-  --color-teal-500-rgb: 33, 128, 141;
-  --color-slate-900-rgb: 19, 52, 59;
-  --color-slate-500-rgb: 98, 108, 113;
-  --color-red-500-rgb: 192, 21, 47;
-  --color-red-400-rgb: 255, 84, 89;
-  --color-orange-500-rgb: 168, 75, 47;
-  --color-orange-400-rgb: 230, 129, 97;
-  --color-gray-400-rgb: 119, 124, 124;
-  --color-gray-300-rgb: 167, 169, 169;
-  --color-gray-200-rgb: 245, 245, 245;
-
-  /* Background color tokens (Light Mode) */
-  --color-bg-1: rgba(59, 130, 246, 0.08);
-  --color-bg-2: rgba(245, 158, 11, 0.08);
-  --color-bg-3: rgba(34, 197, 94, 0.08);
-  --color-bg-4: rgba(239, 68, 68, 0.08);
-  --color-bg-5: rgba(147, 51, 234, 0.08);
-  --color-bg-6: rgba(249, 115, 22, 0.08);
-  --color-bg-7: rgba(236, 72, 153, 0.08);
-  --color-bg-8: rgba(6, 182, 212, 0.08);
-
-  /* Semantic Color Tokens (Light Mode) */
-  --color-background: var(--color-cream-50);
-  --color-surface: var(--color-cream-100);
-  --color-text: var(--color-slate-900);
-  --color-text-secondary: var(--color-slate-500);
-  --color-primary: var(--color-teal-500);
-  --color-primary-hover: var(--color-teal-600);
-  --color-primary-active: var(--color-teal-700);
-  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
-  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
-  --color-btn-primary-text: var(--color-cream-50);
-  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
-  --color-error: var(--color-red-500);
-  --color-success: var(--color-teal-500);
-  --color-warning: var(--color-orange-500);
-  --color-info: var(--color-slate-500);
-  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
-  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
-
-  /* Custom colors */
-  --color-green: rgba(34, 197, 94, 1);
-  --color-yellow: rgba(234, 179, 8, 1);
-  --color-red: rgba(239, 68, 68, 1);
-  --color-green-bg: rgba(34, 197, 94, 0.1);
-  --color-yellow-bg: rgba(234, 179, 8, 0.1);
-  --color-red-bg: rgba(239, 68, 68, 0.1);
-
-  /* Typography */
-  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-size-xs: 11px;
-  --font-size-sm: 12px;
-  --font-size-base: 14px;
-  --font-size-md: 14px;
-  --font-size-lg: 16px;
-  --font-size-xl: 18px;
-  --font-size-2xl: 20px;
-  --font-size-3xl: 24px;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 550;
-  --font-weight-bold: 600;
-  --line-height-tight: 1.2;
-  --line-height-normal: 1.5;
-
-  /* Spacing */
-  --space-4: 4px;
-  --space-8: 8px;
-  --space-12: 12px;
-  --space-16: 16px;
-  --space-20: 20px;
-  --space-24: 24px;
-  --space-32: 32px;
-
-  /* Border Radius */
-  --radius-sm: 6px;
-  --radius-base: 8px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
-
-  /* Animation */
-  --duration-fast: 150ms;
-  --duration-normal: 250ms;
-  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--color-charcoal-700);
-    --color-surface: var(--color-charcoal-800);
-    --color-text: var(--color-gray-200);
-    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
-    --color-primary: var(--color-teal-300);
-    --color-primary-hover: var(--color-teal-400);
-    --color-primary-active: var(--color-teal-800);
-    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
-    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
-    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
-    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
-    --color-error: var(--color-red-400);
-    --color-success: var(--color-teal-300);
-    --color-warning: var(--color-orange-400);
-    --color-btn-primary-text: var(--color-slate-900);
-    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
-    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
-  }
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-family-base);
-    background: var(--color-background);
-    color: var(--color-text);
-    overflow-x: hidden;
-}
-
-.container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.header {
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-}
-
-.header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-20) var(--space-32);
-    border-bottom: 1px solid var(--color-border);
-}
-
-.header-row:last-child {
-    border-bottom: none;
-}
-
-.header-left {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-}
-
-.header h1 {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
-}
-
-.header-date {
-    font-size: var(--font-size-base);
-    color: var(--color-text-secondary);
-    font-weight: var(--font-weight-medium);
-}
-
-.controls {
-    display: flex;
-    gap: var(--space-16);
-    align-items: center;
-}
-
-.tab-buttons {
-    display: flex;
-    gap: var(--space-8);
-    flex-wrap: wrap;
-}
-
-.tab-btn {
-    padding: var(--space-8) var(--space-16);
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    color: var(--color-text);
-    cursor: pointer;
-    transition: all var(--duration-fast) var(--ease-standard);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    font-family: var(--font-family-base);
-}
-
-.tab-btn:hover {
-    background: var(--color-secondary-hover);
-}
-
-.tab-btn.active {
-    background: var(--color-primary);
-    color: var(--color-btn-primary-text);
-    border-color: var(--color-primary);
-}
-
-.current-time {
-    font-size: var(--font-size-base);
-    color: var(--color-text-secondary);
-    font-weight: var(--font-weight-medium);
-    white-space: nowrap;
-}
-
-.scroller-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: var(--space-24) var(--space-32);
-    position: relative;
-}
-
-.section {
-    margin-bottom: var(--space-32);
-}
-
-.section-title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    margin-bottom: var(--space-16);
-    color: var(--color-text);
-    padding-bottom: var(--space-12);
-    border-bottom: 2px solid var(--color-border);
-}
-
-.scroller {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-16);
-}
-
-.load-card {
-    background: var(--color-surface);
-    border: 2px solid;
-    border-radius: var(--radius-lg);
-    padding: var(--space-20) var(--space-24);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 80px;
-    transition: transform var(--duration-fast) var(--ease-standard);
-}
-
-.load-card:hover {
-    transform: translateY(-2px);
-}
-
-/* View mode specific card sizing */
-body.mobile-view .load-card {
-  padding: 12px 14px;
-  min-height: 60px;
-}
-
-body.mobile-view .load-store {
-  font-size: var(--font-size-xl);
-}
-
-body.mobile-view .scheduled-time {
-  font-size: var(--font-size-lg);
-}
-
-body.mobile-view .time-remaining {
-  font-size: var(--font-size-sm);
-}
-
-body.tv-view .load-card {
-  padding: 24px 28px;
-  min-height: 90px;
-}
-
-body.tv-view .load-store {
-  font-size: 28px;
-}
-
-body.tv-view .scheduled-time {
-  font-size: 24px;
-}
-
-body.tv-view .time-remaining {
-  font-size: 16px;
-}
-
-.load-card.green {
-    border-color: var(--color-green);
-    background: var(--color-green-bg);
-}
-
-.load-card.yellow {
-    border-color: var(--color-yellow);
-    background: var(--color-yellow-bg);
-}
-
-.load-card.red {
-    border-color: var(--color-red);
-    background: var(--color-red-bg);
-}
-
-.load-card.completed {
-    border-color: var(--color-border);
-    background: var(--color-surface);
-    opacity: 0.6;
-}
-
-.load-card.completed .load-store {
-    text-decoration: line-through;
-}
-
-.load-info {
-    display: flex;
-    gap: var(--space-32);
-    align-items: center;
-}
-
-.load-type {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--color-text-secondary);
-}
-
-.load-store {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text);
-}
-
-.load-time {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: var(--space-4);
-}
-
-.scheduled-time {
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text);
-}
-
-.time-remaining {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-}
-
-.load-card.green .time-remaining {
-    color: var(--color-green);
-}
-
-.load-card.yellow .time-remaining {
-    color: var(--color-yellow);
-}
-
-.load-card.red .time-remaining {
-    color: var(--color-red);
-}
-
-.legend {
-    position: fixed;
-    bottom: var(--space-24);
-    right: var(--space-32);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-base);
-    padding: var(--space-16);
-    display: flex;
-    gap: var(--space-20);
-    font-size: var(--font-size-sm);
-    box-shadow: var(--shadow-md);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-8);
-}
-
-.legend-color {
-    width: 20px;
-    height: 20px;
-    border-radius: var(--radius-sm);
-}
-
-.legend-color.green {
-    background: var(--color-green);
-}
-
-.legend-color.yellow {
-    background: var(--color-yellow);
-}
-
-.legend-color.red {
-    background: var(--color-red);
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal.active {
-    display: flex;
-}
-
-.modal-content {
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    padding: var(--space-32);
-    max-width: 800px;
-    max-height: 80vh;
-    overflow-y: auto;
-    width: 90%;
-    box-shadow: var(--shadow-md);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--space-20);
-}
-
-.modal-header h2 {
-    margin: 0;
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-}
-
-.close-btn {
-    background: var(--color-secondary);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: var(--space-8) var(--space-16);
-    cursor: pointer;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text);
-    font-family: var(--font-family-base);
-    transition: background var(--duration-fast) var(--ease-standard);
-}
-
-.close-btn:hover {
-    background: var(--color-secondary-hover);
-}
-
-.data-editor {
-    font-family: var(--font-family-mono);
-    font-size: var(--font-size-sm);
-    width: 100%;
-    min-height: 400px;
-    padding: var(--space-16);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-base);
-    background: var(--color-background);
-    color: var(--color-text);
-    resize: vertical;
-}
-
-.modal-actions {
-    display: flex;
-    gap: var(--space-12);
-    margin-top: var(--space-20);
-}
-
-.save-btn {
-    background: var(--color-primary);
-    color: var(--color-btn-primary-text);
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: var(--space-12) var(--space-20);
-    cursor: pointer;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    font-family: var(--font-family-base);
-    transition: background var(--duration-fast) var(--ease-standard);
-}
-
-.save-btn:hover {
-    background: var(--color-primary-hover);
-}
-
-.sync-status {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    padding: var(--space-8) var(--space-12);
-    background: rgba(var(--color-teal-500-rgb), 0.1);
-    border-radius: var(--radius-sm);
-    white-space: nowrap;
-}
-
-@media (max-width: 768px) {
-    .header-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-16);
-        padding: var(--space-16);
-    }
-    
-    .controls {
-        flex-direction: column;
-        width: 100%;
-        align-items: flex-start;
-    }
-    
-    .tab-buttons {
-        width: 100%;
-    }
-    
-    .scroller-container {
-        padding: var(--space-16);
-    }
-    
-    .load-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-16);
-    }
-    
-    .load-time {
-        align-items: flex-start;
-    }
-    
-    .legend {
-        position: static;
-        margin-top: var(--space-24);
-        flex-direction: column;
-    }
-}
+            --color-white: rgba(255, 255, 255, 1);
+            --color-black: rgba(0, 0, 0, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-gray-400: rgba(119, 124, 124, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-400: rgba(45, 166, 178, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-teal-800: rgba(41, 150, 161, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-red-500: rgba(192, 21, 47, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-orange-500: rgba(168, 75, 47, 1);
+
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-slate-900-rgb: 19, 52, 59;
+            --color-slate-500-rgb: 98, 108, 113;
+            --color-red-500-rgb: 192, 21, 47;
+            --color-red-400-rgb: 255, 84, 89;
+            --color-orange-500-rgb: 168, 75, 47;
+            --color-orange-400-rgb: 230, 129, 97;
+            --color-gray-400-rgb: 119, 124, 124;
+            --color-gray-300-rgb: 167, 169, 169;
+            --color-gray-200-rgb: 245, 245, 245;
+
+            --color-bg-1: rgba(59, 130, 246, 0.08);
+            --color-bg-2: rgba(245, 158, 11, 0.08);
+            --color-bg-3: rgba(34, 197, 94, 0.08);
+            --color-bg-4: rgba(239, 68, 68, 0.08);
+            --color-bg-5: rgba(147, 51, 234, 0.08);
+            --color-bg-6: rgba(249, 115, 22, 0.08);
+            --color-bg-7: rgba(236, 72, 153, 0.08);
+            --color-bg-8: rgba(6, 182, 212, 0.08);
+
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-primary-active: var(--color-teal-700);
+            --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-btn-primary-text: var(--color-cream-50);
+            --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-error: var(--color-red-500);
+            --color-success: var(--color-teal-500);
+            --color-warning: var(--color-orange-500);
+            --color-info: var(--color-slate-500);
+            --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+            --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+            --color-green: rgba(34, 197, 94, 1);
+            --color-yellow: rgba(234, 179, 8, 1);
+            --color-red: rgba(239, 68, 68, 1);
+            --color-green-bg: rgba(34, 197, 94, 0.1);
+            --color-yellow-bg: rgba(234, 179, 8, 0.1);
+            --color-red-bg: rgba(239, 68, 68, 0.1);
+
+            --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            --font-size-xs: 11px;
+            --font-size-sm: 12px;
+            --font-size-base: 14px;
+            --font-size-md: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 20px;
+            --font-size-3xl: 24px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 550;
+            --font-weight-bold: 600;
+            --line-height-tight: 1.2;
+            --line-height-normal: 1.5;
+
+            --space-4: 4px;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+
+            --radius-sm: 6px;
+            --radius-base: 8px;
+            --radius-md: 10px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+
+            --duration-fast: 150ms;
+            --duration-normal: 250ms;
+            --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-background: var(--color-charcoal-700);
+                --color-surface: var(--color-charcoal-800);
+                --color-text: var(--color-gray-200);
+                --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+                --color-primary: var(--color-teal-300);
+                --color-primary-hover: var(--color-teal-400);
+                --color-primary-active: var(--color-teal-800);
+                --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+                --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+                --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+                --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+                --color-error: var(--color-red-400);
+                --color-success: var(--color-teal-300);
+                --color-warning: var(--color-orange-400);
+                --color-btn-primary-text: var(--color-slate-900);
+                --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+                --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-20) var(--space-32);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .header-row:last-child {
+            border-bottom: none;
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .header-date {
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .controls {
+            display: flex;
+            gap: var(--space-16);
+            align-items: center;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: var(--space-8);
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: var(--space-8) var(--space-16);
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-standard);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            font-family: var(--font-family-base);
+        }
+
+        .tab-btn:hover {
+            background: var(--color-secondary-hover);
+        }
+
+        .tab-btn.active {
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+            border-color: var(--color-primary);
+        }
+
+        .current-time {
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-medium);
+            white-space: nowrap;
+        }
+
+        .scroller-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-24) var(--space-32);
+            position: relative;
+        }
+
+        .section {
+            margin-bottom: var(--space-32);
+        }
+
+        .section-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-16);
+            color: var(--color-text);
+            padding-bottom: var(--space-12);
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .scroller {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+        }
+
+        .load-card {
+            background: var(--color-surface);
+            border: 2px solid;
+            border-radius: var(--radius-lg);
+            padding: var(--space-20) var(--space-24);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 80px;
+            transition: transform var(--duration-fast) var(--ease-standard);
+        }
+
+        .load-card:hover {
+            transform: translateY(-2px);
+        }
+
+        body.mobile-view .load-card {
+            padding: 12px 14px;
+            min-height: 60px;
+        }
+
+        body.mobile-view .load-store {
+            font-size: var(--font-size-xl);
+        }
+
+        body.mobile-view .scheduled-time {
+            font-size: var(--font-size-lg);
+        }
+
+        body.mobile-view .time-remaining {
+            font-size: var(--font-size-sm);
+        }
+
+        body.tv-view .load-card {
+            padding: 24px 28px;
+            min-height: 90px;
+        }
+
+        body.tv-view .load-store {
+            font-size: 28px;
+        }
+
+        body.tv-view .scheduled-time {
+            font-size: 24px;
+        }
+
+        body.tv-view .time-remaining {
+            font-size: 16px;
+        }
+
+        .load-card.green {
+            border-color: var(--color-green);
+            background: var(--color-green-bg);
+        }
+
+        .load-card.yellow {
+            border-color: var(--color-yellow);
+            background: var(--color-yellow-bg);
+        }
+
+        .load-card.red {
+            border-color: var(--color-red);
+            background: var(--color-red-bg);
+        }
+
+        .load-card.completed {
+            border-color: var(--color-border);
+            background: var(--color-surface);
+            opacity: 0.6;
+        }
+
+        .load-card.completed .load-store {
+            text-decoration: line-through;
+        }
+
+        .load-info {
+            display: flex;
+            gap: var(--space-32);
+            align-items: center;
+        }
+
+        .load-type {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--color-text-secondary);
+        }
+
+        .load-store {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+        }
+
+        .load-time {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: var(--space-4);
+        }
+
+        .scheduled-time {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+        }
+
+        .time-remaining {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .load-card.green .time-remaining {
+            color: var(--color-green);
+        }
+
+        .load-card.yellow .time-remaining {
+            color: var(--color-yellow);
+        }
+
+        .load-card.red .time-remaining {
+            color: var(--color-red);
+        }
+
+        .next-day-badge {
+            display: inline-block;
+            background: rgba(var(--color-orange-500-rgb), 0.15);
+            color: var(--color-orange-500);
+            padding: var(--space-4) var(--space-12);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            margin-left: var(--space-8);
+        }
+
+        .legend {
+            position: fixed;
+            bottom: var(--space-24);
+            right: var(--space-32);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-16);
+            display: flex;
+            gap: var(--space-20);
+            font-size: var(--font-size-sm);
+            box-shadow: var(--shadow-md);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: var(--radius-sm);
+        }
+
+        .legend-color.green {
+            background: var(--color-green);
+        }
+
+        .legend-color.yellow {
+            background: var(--color-yellow);
+        }
+
+        .legend-color.red {
+            background: var(--color-red);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-32);
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            width: 90%;
+            box-shadow: var(--shadow-md);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-20);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .close-btn {
+            background: var(--color-secondary);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: var(--space-8) var(--space-16);
+            cursor: pointer;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-text);
+            font-family: var(--font-family-base);
+            transition: background var(--duration-fast) var(--ease-standard);
+        }
+
+        .close-btn:hover {
+            background: var(--color-secondary-hover);
+        }
+
+        .data-editor {
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            width: 100%;
+            min-height: 400px;
+            padding: var(--space-16);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: var(--space-12);
+            margin-top: var(--space-20);
+        }
+
+        .save-btn {
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: var(--space-12) var(--space-20);
+            cursor: pointer;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            font-family: var(--font-family-base);
+            transition: background var(--duration-fast) var(--ease-standard);
+        }
+
+        .save-btn:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .sync-status {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            padding: var(--space-8) var(--space-12);
+            background: rgba(var(--color-teal-500-rgb), 0.1);
+            border-radius: var(--radius-sm);
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-16);
+                padding: var(--space-16);
+            }
+
+            .controls {
+                flex-direction: column;
+                width: 100%;
+                align-items: flex-start;
+            }
+
+            .tab-buttons {
+                width: 100%;
+            }
+
+            .scroller-container {
+                padding: var(--space-16);
+            }
+
+            .load-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-16);
+            }
+
+            .load-time {
+                align-items: flex-start;
+            }
+
+            .legend {
+                position: static;
+                margin-top: var(--space-24);
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body class="tv-view">
@@ -626,7 +626,7 @@ body.tv-view .time-remaining {
             </div>
             <div class="legend-item">
                 <div class="legend-color yellow"></div>
-                <span>20-45 min</span>
+                <span>20-120 min</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color red"></div>
@@ -688,7 +688,6 @@ body.tv-view .time-remaining {
                     if (value === undefined || value === '') return;
 
                     if (dayKeys.includes(trimmedKey)) {
-                        // Day columns: convert Excel serial numbers to "10:00 PM"
                         if (typeof value === 'number') {
                             const asTime = excelSerialToTimeString(value);
                             if (asTime) cleaned[trimmedKey] = asTime;
@@ -731,7 +730,7 @@ body.tv-view .time-remaining {
                     const produceSheet = produceWorkbook.Sheets[produceWorkbook.SheetNames[0]];
                     
                     scheduleData.grocery = normalizeData(XLSX.utils.sheet_to_json(grocerySheet));
-                    scheduleData.produce = normalizeData(XLSX.utils.sheet_to_json(produceSheet)); [file:133][file:134]
+                    scheduleData.produce = normalizeData(XLSX.utils.sheet_to_json(produceSheet));
                     
                     updateSyncStatus('✅ Synced');
                     console.log('✅ Excel files loaded from GitHub');
@@ -770,6 +769,12 @@ body.tv-view .time-remaining {
             return { hours, minutes };
         }
 
+        function isInNightShiftWindow() {
+            const now = new Date();
+            const hours = now.getHours();
+            return hours >= 19 || hours < 2; // 7 PM to 1:59 AM
+        }
+
         function getTimeStatus(scheduledTime) {
             const now = new Date();
             const scheduled = new Date(now);
@@ -779,7 +784,7 @@ body.tv-view .time-remaining {
             const diffMinutes = (scheduled - now) / (1000 * 60);
 
             if (diffMinutes > 120) return 'green';
-            if (diffMinutes >= 20 && diffMinutes <= 45) return 'yellow';
+            if (diffMinutes >= 20 && diffMinutes <= 120) return 'yellow';
             if (diffMinutes < 20 && diffMinutes >= 0) return 'red';
             return 'green';
         }
@@ -818,75 +823,99 @@ body.tv-view .time-remaining {
         }
 
         function getLoadsForToday() {
-            let now;
-            if (selectedDate) {
-                const parts = selectedDate.split('-');
-                now = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-            } else {
-                now = new Date();
-            }
-            const today = dayMap[now.getDay()];
+            let now = new Date();
             const loads = [];
+            const inNightShift = isInNightShiftWindow();
 
-            Object.keys(scheduleData).forEach(type => {
-                if (currentFilter !== 'urgent' && currentFilter !== 'completed' && currentFilter !== 'all' && currentFilter !== type) return;
+            // Get today's loads with filter applied
+            const today = dayMap[now.getDay()];
+            const todayLoads = collectLoadsWithFilter(today, 'today');
+            loads.push(...todayLoads);
 
-                scheduleData[type].forEach(load => {
-                    if (load[today]) {
-                        const typeName = type.charAt(0).toUpperCase() + type.slice(1);
-                        loads.push({
-                            type: typeName,
-                            store: load.store,
-                            store_name: load.store_name || '',
-                            time: load[today],
-                            timeStatus: getTimeStatus(load[today]),
-                            status: 'pending'
-                        });
-                    }
+            // If in night shift window (7 PM - 1:30 AM), show ALL next day's early morning loads (no filter)
+            if (inNightShift) {
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const tomorrowDay = dayMap[tomorrow.getDay()];
+                
+                // Get ALL tomorrow's loads between 12:00 AM - 1:30 AM (no type filtering)
+                const earlyMorningLoads = collectLoadsNoFilter(tomorrowDay, 'tomorrow').filter(load => {
+                    const { hours, minutes } = parseTime(load.time);
+                    const totalMinutes = hours * 60 + minutes;
+                    return totalMinutes >= 0 && totalMinutes <= 90;
                 });
-            });
+                loads.push(...earlyMorningLoads);
+            }
 
             return loads;
         }
 
-        // NEW: tomorrow's 12:00–1:30 AM loads, visible after 7 PM
-        function getEarlyNextDayLoads() {
-            const now = new Date();
-
-            // Only add these after 7 PM
-            if (now.getHours() < 19) return [];
-
-            const tomorrowIndex = (now.getDay() + 1) % 7;
-            const tomorrowKey = dayMap[tomorrowIndex];
+        function collectLoadsWithFilter(day, dateLabel) {
             const loads = [];
-
             Object.keys(scheduleData).forEach(type => {
                 if (currentFilter !== 'urgent' && currentFilter !== 'completed' && currentFilter !== 'all' && currentFilter !== type) return;
 
                 scheduleData[type].forEach(load => {
-                    const timeStr = load[tomorrowKey];
-                    if (!timeStr) return;
-
-                    const { hours, minutes } = parseTime(timeStr);
-                    const totalMinutes = hours * 60 + minutes;
-
-                    // Only include times between 00:00 and 01:30 (0–90 minutes)
-                    if (totalMinutes >= 0 && totalMinutes <= 90) {
+                    if (load[day]) {
                         const typeName = type.charAt(0).toUpperCase() + type.slice(1);
                         loads.push({
                             type: typeName,
                             store: load.store,
                             store_name: load.store_name || '',
-                            time: timeStr,
-                            timeStatus: getTimeStatus(timeStr),
+                            time: load[day],
+                            timeStatus: getTimeStatus(load[day]),
                             status: 'pending',
-                            isEarlyNextDay: true
+                            dateLabel: dateLabel
                         });
                     }
                 });
             });
-
             return loads;
+        }
+
+        function collectLoadsNoFilter(day, dateLabel) {
+            const loads = [];
+            Object.keys(scheduleData).forEach(type => {
+                scheduleData[type].forEach(load => {
+                    if (load[day]) {
+                        const typeName = type.charAt(0).toUpperCase() + type.slice(1);
+                        loads.push({
+                            type: typeName,
+                            store: load.store,
+                            store_name: load.store_name || '',
+                            time: load[day],
+                            timeStatus: getTimeStatus(load[day]),
+                            status: 'pending',
+                            dateLabel: dateLabel
+                        });
+                    }
+                });
+            });
+            return loads;
+        }
+
+        function filterLoadsByStatus() {
+            const allLoads = getLoadsForToday();
+            
+            if (currentFilter === 'completed') {
+                return allLoads.filter(load => {
+                    const minutesUntil = getMinutesUntilLoad(load.time);
+                    return minutesUntil < 0;
+                }).sort((a, b) => {
+                    const timeA = parseTime(a.time);
+                    const timeB = parseTime(b.time);
+                    return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
+                });
+            } else {
+                return allLoads.filter(load => {
+                    const minutesUntil = getMinutesUntilLoad(load.time);
+                    return minutesUntil >= 0;
+                }).sort((a, b) => {
+                    const timeA = parseTime(a.time);
+                    const timeB = parseTime(b.time);
+                    return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
+                });
+            }
         }
 
         function renderLoadCard(load) {
@@ -903,10 +932,12 @@ body.tv-view .time-remaining {
                 ? `${load.store} - ${load.store_name}`
                 : `Store ${load.store}`;
 
+            const badgeHTML = load.dateLabel === 'tomorrow' ? '<span class="next-day-badge">Tomorrow AM</span>' : '';
+
             return `
                 <div class="load-card ${cardClass}">
                     <div class="load-info">
-                        <div class="load-type">${load.type}</div>
+                        <div class="load-type">${load.type}${badgeHTML}</div>
                         <div class="load-store">${storeLabel}</div>
                     </div>
                     <div class="load-time">
@@ -918,17 +949,8 @@ body.tv-view .time-remaining {
         }
 
         function renderScroller() {
-            const todayLoads = getLoadsForToday();
-            const earlyNextLoads = getEarlyNextDayLoads();
-            const allLoads = [...todayLoads, ...earlyNextLoads];
-
-            let now;
-            if (selectedDate) {
-                const parts = selectedDate.split('-');
-                now = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-            } else {
-                now = new Date();
-            }
+            const filteredLoads = filterLoadsByStatus();
+            const now = new Date();
             const dateStr = now.toLocaleDateString('en-US', { 
                 weekday: 'long', 
                 year: 'numeric',
@@ -937,39 +959,21 @@ body.tv-view .time-remaining {
             });
             
             if (currentFilter === 'completed') {
-                const completedLoads = allLoads
-                    .filter(load => {
-                        const minutesUntil = getMinutesUntilLoad(load.time);
-                        return minutesUntil < 0;
-                    })
-                    .sort((a, b) => {
-                        const timeA = parseTime(a.time);
-                        const timeB = parseTime(b.time);
-                        return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
-                    });
-
-                document.getElementById('sectionTitle').textContent = `Completed Loads for ${selectedDate ? dateStr : 'Today'} (${completedLoads.length})`;
+                document.getElementById('sectionTitle').textContent = `Completed Loads (${filteredLoads.length})`;
                 document.getElementById('urgentScroller').innerHTML = 
-                    completedLoads.length > 0 
-                        ? completedLoads.map(renderLoadCard).join('') 
-                        : '<p style="color: var(--color-text-secondary); padding: 20px;">No completed loads for today</p>';
+                    filteredLoads.length > 0 
+                        ? filteredLoads.map(renderLoadCard).join('') 
+                        : '<p style="color: var(--color-text-secondary); padding: 20px;">No completed loads</p>';
             } else {
-                const pendingLoads = allLoads
-                    .filter(load => {
-                        const minutesUntil = getMinutesUntilLoad(load.time);
-                        return minutesUntil >= 0;
-                    })
-                    .sort((a, b) => {
-                        const timeA = parseTime(a.time);
-                        const timeB = parseTime(b.time);
-                        return (timeA.hours * 60 + timeA.minutes) - (timeB.hours * 60 + timeB.minutes);
-                    });
+                const titleText = isInNightShiftWindow() 
+                    ? `Pending Loads for Today & Early Tomorrow (${filteredLoads.length})`
+                    : `Pending Loads for Today (${filteredLoads.length})`;
 
-                document.getElementById('sectionTitle').textContent = `Pending Loads for ${selectedDate ? dateStr : 'Today'} (${pendingLoads.length})`;
+                document.getElementById('sectionTitle').textContent = titleText;
                 document.getElementById('urgentScroller').innerHTML = 
-                    pendingLoads.length > 0 
-                        ? pendingLoads.map(renderLoadCard).join('') 
-                        : `<p style="color: var(--color-text-secondary); padding: 20px;">No pending loads for ${selectedDate ? dateStr : 'today'}</p>`;
+                    filteredLoads.length > 0 
+                        ? filteredLoads.map(renderLoadCard).join('') 
+                        : '<p style="color: var(--color-text-secondary); padding: 20px;">No pending loads</p>';
             }
         }
 
@@ -1075,7 +1079,7 @@ body.tv-view .time-remaining {
         updateCurrentTime();
         setInterval(updateCurrentTime, 1000);
         setInterval(renderScroller, 60000);
-        setInterval(loadExcelFromGitHub, 300000); // Auto-refresh every 5 minutes
+        setInterval(loadExcelFromGitHub, 300000);
     </script>
 </body>
 </html>
