@@ -688,6 +688,7 @@ body.tv-view .time-remaining {
                     if (value === undefined || value === '') return;
 
                     if (dayKeys.includes(trimmedKey)) {
+                        // Day columns: convert Excel serial numbers to "10:00 PM"
                         if (typeof value === 'number') {
                             const asTime = excelSerialToTimeString(value);
                             if (asTime) cleaned[trimmedKey] = asTime;
@@ -750,29 +751,22 @@ body.tv-view .time-remaining {
             loadExcelFromGitHub();
         }
 
-        // UPDATED: parseTime also understands 6-digit HHMMSS like "000000"
         function parseTime(timeStr) {
-            if (!timeStr) return { hours: 0, minutes: 0 };
-            let s = String(timeStr).trim().toUpperCase();
-
-            // 6-digit HHMMSS from Produce sheet, e.g. "000000", "003000", "010000"
-            if (/^\d{6}$/.test(s)) {
-                const h = parseInt(s.slice(0, 2), 10);
-                const m = parseInt(s.slice(2, 4), 10);
-                return { hours: h, minutes: m };
-            }
-
+            if (!timeStr || typeof timeStr !== 'string') return { hours: 0, minutes: 0 };
+            
+            const timeStr_clean = timeStr.trim().toUpperCase();
             const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM)?/;
-            const match = s.match(timeRegex);
+            const match = timeStr_clean.match(timeRegex);
+            
             if (!match) return { hours: 0, minutes: 0 };
-
-            let hours = parseInt(match[1], 10);
-            const minutes = parseInt(match[2], 10);
+            
+            let hours = parseInt(match[1]);
+            const minutes = parseInt(match[2]);
             const period = match[3];
-
+            
             if (period === 'PM' && hours !== 12) hours += 12;
             if (period === 'AM' && hours === 12) hours = 0;
-
+            
             return { hours, minutes };
         }
 
@@ -855,7 +849,7 @@ body.tv-view .time-remaining {
             return loads;
         }
 
-        // NEW: tomorrow's 00:00–01:30 loads, shown after 7 PM
+        // NEW: tomorrow's 12:00–1:30 AM loads, visible after 7 PM
         function getEarlyNextDayLoads() {
             const now = new Date();
 
@@ -876,6 +870,7 @@ body.tv-view .time-remaining {
                     const { hours, minutes } = parseTime(timeStr);
                     const totalMinutes = hours * 60 + minutes;
 
+                    // Only include times between 00:00 and 01:30 (0–90 minutes)
                     if (totalMinutes >= 0 && totalMinutes <= 90) {
                         const typeName = type.charAt(0).toUpperCase() + type.slice(1);
                         loads.push({
