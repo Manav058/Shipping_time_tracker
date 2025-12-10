@@ -784,7 +784,7 @@
             const diffMinutes = (scheduled - now) / (1000 * 60);
 
             if (diffMinutes > 120) return 'green';
-            if (diffMinutes >= 20 && diffMinutes <= 120) return 'yellow';
+            if (diffMinutes >= 20 && diffMinutes <= 45) return 'yellow';
             if (diffMinutes < 20 && diffMinutes >= 0) return 'red';
             return 'green';
         }
